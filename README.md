@@ -1,1 +1,1 @@
-Aloha! I'm Jazmyne and I’m a senior business student at UH Mānoa studying Marketing and Economics🌼 
+Hi, I’m Jazmyne! I’m from Maui but currently studying at UH Mānoa, majoring in Marketing and Economics. Aside from being a student, I’m a marketing intern with Maui Resort Rentals and run my own business, Sew Local. When I’m not busy with school or extracurriculars, I love running, journaling, and designing!
