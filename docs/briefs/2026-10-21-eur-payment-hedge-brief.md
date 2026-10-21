@@ -18,7 +18,7 @@ llm_used: "ChatGPT (GPT-6)"
 
 ---
 
-## Executive Summary (≤150 words)
+## Executive Summary
 
 Our company expects to receive EUR 4,500,000 in one year and convert the funds into U.S. dollars. Although the euro amount is fixed, the dollar proceeds depend on the exchange rate at settlement. At EUR/USD 1.10, the receipt equals $4,950,000; at 1.00, it equals $4,500,000, a $450,000 reduction. This exposure could create a significant budget shortfall. This project will compare forward or futures contracts, money-market hedges, and currency options to assess their costs, protection, and potential upside. I expect a forward hedge to provide the most predictable dollar proceeds because it locks in a conversion rate without an option premium. The analysis will test this hypothesis using a specified model, sourced market data, independent validation, and documented calculations before a final recommendation is made.
 
