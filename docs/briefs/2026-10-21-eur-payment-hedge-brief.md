@@ -9,8 +9,8 @@ llm_used: "ChatGPT (GPT-6)"
 
 # EUR Receivable FX Hedging Executive Brief
 
-**Created by:** [Your Name]  
-**Updated by:** [Your Name]  
+**Created by:** Jazmyne Viloria  
+**Updated by:** Jazmyne Viloria 
 **Date Created:** 2026-10-21  
 **Date Updated:** 2026-10-21  
 **Version:** 1.0  
