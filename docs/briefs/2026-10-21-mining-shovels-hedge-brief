@@ -1,52 +1,68 @@
 ---
 type: brief
-title: EUR Receivable FX Hedging Executive Brief
-scenario: eur-receivable
-date: 2026-10-21
-hypothesis: "I expect a forward hedge to provide the most predictable USD proceeds because it locks in the EUR/USD conversion rate without an option premium."
+title: Mining Shovels FX Hedging Executive Brief
+scenario: mining-shovels
+date: 2026-10-28
+hypothesis: "The forward hedge will lock in gross USD proceeds of $16,972,250. The model will test whether the money-market hedge or euro put produces higher net proceeds under consistent assumptions and exchange-rate scenarios, accounting for financing costs and the put premium of $281,300."
 llm_used: "ChatGPT (GPT-6)"
 ---
 
-# EUR Receivable FX Hedging Executive Brief
+# Mining Shovels FX Hedging Executive Brief
 
 **Created by:** Jazmyne Viloria  
-**Updated by:** Jazmyne Viloria 
+**Updated by:** Jazmyne Viloria  
 **Date Created:** 2026-10-21  
-**Date Updated:** 2026-10-21  
-**Version:** 1.0  
+**Date Updated:** 2026-10-28  
+**Version:** 1.1  
 **LLM Used:** ChatGPT (GPT-6)
 
 ---
 
 ## Executive Summary
 
-Our company expects to receive EUR 4,500,000 in one year and convert the funds into U.S. dollars. Although the euro amount is fixed, the dollar proceeds depend on the exchange rate at settlement. At EUR/USD 1.10, the receipt equals $4,950,000; at 1.00, it equals $4,500,000, a $450,000 reduction. This exposure could create a significant budget shortfall. This project will compare forward or futures contracts, money-market hedges, and currency options to assess their costs, protection, and potential upside. I expect a forward hedge to provide the most predictable dollar proceeds because it locks in a conversion rate without an option premium. The analysis will test this hypothesis using a specified model, sourced market data, independent validation, and documented calculations before a final recommendation is made.
+A U.S. mining-shovel manufacturer expects to receive EUR 14,500,000 from a Finnish nickel miner in 182 days. Because the receivable is denominated in euros while the company measures its financial results in U.S. dollars, its eventual dollar proceeds will depend on the EUR/USD exchange rate when payment is received. If the euro weakens against the dollar, the receivable will convert into fewer dollars, potentially creating a budget shortfall.
+
+The assigned scenario provides an indicative 182-day forward rate of EUR/USD 1.1705 and a euro put option premium of $0.0194 per euro. At the forward rate, the company would lock in gross proceeds of $16,972,250. The put option would cost $281,300 for the full receivable amount, before considering any other costs. This project will compare a forward hedge, a money-market hedge, and a euro put option to evaluate their effects on dollar proceeds, downside protection, and hedging costs.
 
 ## Background & Objectives
 
-Foreign exchange risk arises because the company measures its financial results in U.S. dollars but expects to receive euros in the future. If the euro weakens against the dollar, the receivable converts into fewer dollars. A decline from EUR/USD 1.10 to 1.00 reduces proceeds by $450,000, approximately 9.1% of the original dollar value. This difference could affect cash-flow planning and the company's ability to meet its budget.
+Foreign exchange risk arises because the company expects to receive euros in the future but reports its financial results in U.S. dollars. If the euro depreciates against the dollar before the receivable is collected, the company will receive fewer dollars when converting the payment. The size of the potential loss depends on the exchange rate at the time of conversion.
 
-The objective is to compare three approaches to managing the receivable while considering certainty, cost, and participation in favorable exchange-rate movements. A forward or futures contract locks in a conversion rate, providing certainty but sacrificing additional gains if the euro strengthens. A money-market hedge borrows euros, converts them into dollars, and invests the dollar proceeds; it can provide similar certainty but uses financing capacity and depends on interest rates. A euro put option establishes a minimum conversion rate while preserving upside potential, but requires an upfront premium.
+The objective is to compare three hedging strategies using the assigned EUR 14,500,000 receivable and 182-day exposure period. Each strategy has different implications for certainty, cost, financing requirements, and the ability to benefit from favorable exchange-rate movements.
 
+### Forward Hedge
+
+The company can agree to sell its EUR 14,500,000 receivable at the scenario's indicative 182-day forward rate of EUR/USD 1.1705. This locks in gross proceeds of $16,972,250 before transaction costs or bank fees (EUR 14,500,000 × 1.1705). The forward eliminates uncertainty about the future conversion rate but prevents the company from benefiting if the euro strengthens beyond the contracted rate.
+
+### Money-Market Hedge
+
+The company can borrow euros today, convert the borrowed euros into U.S. dollars at the current spot rate, and invest the dollar proceeds for 182 days. The EUR 14,500,000 receivable would then repay the euro borrowing at maturity. The exact dollar proceeds depend on the current EUR/USD spot rate and the USD and EUR interest rates over the 182-day period. These rates must be sourced before the hedge can be calculated and compared with the forward's locked-in gross proceeds of $16,972,250. The money-market hedge can provide certainty over the dollar proceeds but requires financing and may involve borrowing spreads or transaction costs.
+
+### Euro Put Option Hedge
+
+The company can purchase a euro put option with a strike price equal to the current EUR/USD spot rate. The scenario specifies a premium of $0.0194 per euro, resulting in a total premium of $281,300 for the EUR 14,500,000 receivable (EUR 14,500,000 × $0.0194). The put protects against the euro weakening below the strike rate while allowing the company to benefit if the euro strengthens. Its main disadvantage is the upfront premium, which reduces net proceeds. The model will compare the put's net proceeds, after the $281,300 premium, with the forward's gross proceeds of $16,972,250 under alternative exchange-rate scenarios.
 ## Methods
 
 The analysis will proceed in five stages:
 
-- **Stage 1 — Executive brief:** Define the exposure, assumptions, and hypothesis before modeling.
-- **Stage 2 — Model specification:** Design the workbook structure, named ranges, formula logic, and validation checks.
-- **Stage 3 — AI-assisted build and audit:** Generate the workbook from the specification, then inspect and correct formulas and outputs.
-- **Stage 4 — Market data and population:** Replace illustrative inputs with sourced, timestamped exchange rates, interest rates, forward rates, and option pricing inputs.
-- **Stage 5 — Validation and decision memo:** Independently review the model, verify calculations, compare hedge outcomes, and document the final recommendation.
+- **Stage 1 — Executive Brief:** Define the currency exposure, identify the assigned scenario inputs, and establish a testable hypothesis before modeling.
+- **Stage 2 — Model Specification:** Design the workbook structure, named ranges, formula logic, and validation checks for each hedge strategy.
+- **Stage 3 — AI-Assisted Build and Audit:** Build the Excel workbook from the specification, then inspect and correct formulas and outputs.
+- **Stage 4 — Market Data and Population:** Populate the workbook with sourced, dated market data, including the spot rate and relevant USD and EUR interest rates. Use the scenario-provided forward rate and option premium where applicable.
+- **Stage 5 — Validation and Decision Memo:** Independently validate the calculations, compare hedge outcomes, test sensitivity to exchange-rate changes, and document the final recommendation.
 
-The model will compare the dollar proceeds and costs of each hedge under consistent assumptions and exchange-rate scenarios.
+The model will compare the three strategies using consistent assumptions and future exchange-rate scenarios. It will distinguish gross proceeds from net proceeds after premiums, financing costs, and other applicable expenses. The money-market hedge will be calculated using the selected interest rates and day-count conventions, while the put option will be evaluated at its strike rate and under alternative future spot rates.
 
 ## Limitations & Next Steps
 
-The initial analysis assumes a EUR 4,500,000 receivable due in one year and a USD reporting currency. The exchange rates above are illustrative, not forecasts. Actual market rates, financing costs, option premiums, transaction costs, and contract terms remain to be established. The comparison must also account for differences in hedge structure and execution requirements.
+The analysis is based on a EUR 14,500,000 receivable due in 182 days. The scenario provides an indicative forward rate of 1.1705 and a euro put premium of $0.0194 per euro. The market spot rate and relevant USD and EUR interest rates must be sourced and documented before the model is populated. The indicative forward rate and option premium are scenario inputs and may not reflect executable quotes available to the company. Actual financing rates, transaction costs, option terms, and bank fees may differ from the model assumptions.
 
-I expect the forward hedge to provide the most predictable dollar proceeds because it fixes the conversion rate. This hypothesis would be challenged if the money-market hedge secures equivalent protection at a lower total cost, or if an option delivers sufficiently greater net proceeds under plausible exchange-rate outcomes to justify its premium. Stage 2 will formalize these assumptions and calculations; later stages will populate, audit, and validate the model before any hedge is recommended.
+The initial hypothesis is that the forward hedge will provide the most certain gross dollar proceeds by locking in $16,972,250. However, certainty alone does not establish that it is the most cost-effective strategy. The model will test whether the money-market hedge produces higher net proceeds after financing costs or whether the euro put provides sufficient protection and upside potential to justify its $281,300 premium. The hypothesis will be challenged if either alternative produces higher net proceeds under the same assumptions and exchange-rate scenarios while meeting the company's risk requirements.
+
+Stage 2 will formalize the inputs, calculations, and validation checks needed to test this hypothesis. Later stages will populate the workbook with sourced data, audit the formulas, test alternative exchange-rate outcomes, and support a final hedge recommendation.
 
 ## References
 
 - International Finance and Securities course materials. (2026). *FX Hedging — Stage 1: Executive Brief*. Course assignment instructions.
 - Stauffer, A. (n.d.). *Template decision memo*. Shidler course repository. https://github.com/adamwstauffer/shidler/blob/main/courses/International-Finance-And-Securities/projects/fx-hedging/_templates/template-decision-memo.md
+- Stauffer, A. (n.d.). *FX hedging scenarios*. Shidler course repository. https://github.com/adamwstauffer/shidler/blob/main/courses/International-Finance-And-Securities/projects/fx-hedging/scenarios.md
