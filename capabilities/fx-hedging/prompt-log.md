@@ -1,4 +1,4 @@
-# FX Hedging — AI Prompt Log
+# FX Hedging — Prompt Log
 
 **Project:** Scenario 33 — Mining Shovels  
 **Course:** FIN 321 — International Finance and Securities  
@@ -9,7 +9,7 @@
 
 ## 1. Initial Specification Review
 
-**Purpose:** Review the first draft of the technical specification for completeness, accuracy, and alignment with the Stage 2 assignment.
+**Purpose:** Review the first draft of the technical specification for gaps, calculation accuracy, and alignment with the Stage 2 assignment requirements.
 
 **Prompt submitted:**
 
@@ -21,66 +21,14 @@
 
 **AI feedback received:**
 
-[Paste or summarize the actual feedback received.]
+The initial review identified several areas where the specification could be more explicit:
+
+- Clarify the sensitivity grid as 11 settlement-rate scenarios, ranging from 95% to 105% of the initial spot rate in 1% increments.
+- Clarify that the put floor represents minimum modeled USD proceeds after deducting the option premium.
+- Distinguish the assigned indicative forward rate from the forward rate implied by covered interest-rate parity.
+- Make the treatment of option premiums consistent with the assignment's specified formulas.
+- Ensure the specification clearly identifies which market inputs are provided by the scenario and which must be sourced during Stage 4.
 
 **Changes made:**
 
-[Document the changes made to the specification based on the feedback.]
-
----
-
-## 2. Revised Specification Review
-
-**Purpose:** Verify that the revised specification addresses the initial feedback and meets the Stage 2 requirements.
-
-**Prompt submitted:**
-
-> Review my revised Scenario 33 FX hedging model specification. Compare it against the Stage 2 assignment requirements and identify any remaining gaps or inconsistencies.
->
-> Specifically verify that:
-> - All eight required sections are included.
-> - All ten standardized named ranges have descriptions, values or placeholders, units, and Stage 4 data sources.
-> - The workbook tab architecture is clearly defined.
-> - The forward and three-step money-market calculations are correct.
-> - The covered interest-rate parity check is clearly explained.
-> - The put and call option payoffs are specified correctly.
-> - The sensitivity analysis includes 11 settlement-rate scenarios from 95% to 105% of the initial spot rate.
-> - The validation rules and required outputs are specific enough to guide the Stage 3 workbook build.
-
-**AI feedback received:**
-
-[Paste or summarize the actual feedback received.]
-
-**Changes made:**
-
-[Document any additional revisions. If no further changes were necessary, explain that.]
-
----
-
-## 3. Documented Draft-to-Revision Example
-
-**Issue identified:**
-
-[Identify one specific issue from the actual AI review.]
-
-**Original wording:**
-
-[Paste the original wording from your first specification draft.]
-
-**Revised wording:**
-
-[Paste the corrected wording from your revised specification.]
-
-**Reason for revision:**
-
-[Explain how the change improved the accuracy, clarity, or completeness of the specification.]
-
----
-
-## 4. Final Review
-
-**Final specification:** `spec.md`
-
-**Review outcome:**
-
-[Briefly summarize whether the specification meets the Stage 2 requirements and identify any remaining limitations or items reserved for Stage 3 or Stage 4.]
+- Specified the sensitivity grid as 11 scenarios
