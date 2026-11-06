@@ -56,6 +56,7 @@ All ten required inputs must be exposed as standardized workbook named ranges. T
 - Use ACT/360 for both interest-rate calculations.
 - The assigned forward rate and option premiums are indicative, replaced with live data at Stage 4 if updated market quotes are required.
 - Do not use the template's example GBP values or one-year assumptions.
+- All scenario-provided market values (F0_in, PREM_PUT, and PREM_CALL) are indicative, replaced with live data at Stage 4. The spot rate (S0_in) and interest rates (R_USD and R_FC) are placeholders to be populated with sourced market data during Stage 4.
 
 ### 2.2 Derived Values
 
