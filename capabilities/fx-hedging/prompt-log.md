@@ -106,3 +106,31 @@ The revised wording identifies each input individually and distinguishes assigne
 The revised specification addresses the eight required sections and the Stage 2 checklist. It defines the ten named ranges, workbook architecture, calculation formulas, hedge strategies, sensitivity analysis, and validation requirements. The specification is ready to guide the Stage 3 workbook build.
 
 Live market-data sourcing and population remain for Stage 4. Workbook construction, formula testing, and the final audit remain for Stage 3.
+
+---
+
+## 5. Instructor Feedback and Revisions
+
+**Feedback received:** November 7, 2026
+
+The instructor identified four areas requiring improvement:
+
+1. The spot rate and USD/EUR interest rates needed actual market values, sources, and observation dates rather than placeholders.
+2. The option-premium calculations needed to account for the time value of premiums paid upfront.
+3. The specification needed numerical check figures for the money-market hedge, implied forward rate, and put minimum, along with a specific parity tolerance.
+4. Section 2.1 contained both the original and revised placeholder wording.
+
+**Revisions made:**
+
+- Populated `S0_in`, `R_USD`, and `R_FC` with November 6, 2026 market observations and documented their sources and access date.
+- Retained the assigned scenario forward rate and option premiums.
+- Added `PREM_PUT_FV` and `PREM_CALL_FV` to carry the upfront premiums to settlement using `DF_USD`.
+- Revised the put and call net payoff formulas to deduct the carried premiums.
+- Added expected check figures for the money-market hedge, implied forward rate, parity difference, and put minimum.
+- Specified a parity validation tolerance of ±$0.01.
+- Reviewed the 11 sensitivity scenarios and documented whether carrying the premiums changes the highest-proceeds strategy.
+- Removed the outdated original placeholder wording from Section 2.1.
+
+**Final review outcome:**
+
+The specification has been revised to address the instructor's November 7 feedback. The updated market inputs, premium treatment, expected check figures, and validation tolerance provide a more reproducible foundation for the Stage 3 workbook build.
