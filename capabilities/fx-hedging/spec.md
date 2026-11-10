@@ -38,10 +38,10 @@ All ten required inputs must be exposed as standardized workbook named ranges. T
 | Standardized Name | Description | Placeholder / Scenario Value | Unit | Stage 4 Data Source |
 |---|---|---:|---|---|
 | `FC_AMT` | Foreign-currency receivable | 14,500,000 | EUR | Assigned Scenario 33 instructions |
-| `S0_in` | Spot exchange rate at inception | To be sourced | USD per EUR | ECB EUR/USD reference rate |
+|S0_in | Spot exchange rate at inception | 1.1165 | USD per EUR | ECB euro foreign exchange reference rate; observation date: 2026-11-06; accessed: 2026-11-09
 | `F0_in` | Forward rate to settlement | 1.1705 | USD per EUR | Assigned Scenario 33 instructions; indicative |
-| `R_USD` | USD annual interest rate | To be sourced | Annual % | Federal Reserve H.15; document selected rate and tenor |
-| `R_FC` | EUR annual interest rate | To be sourced | Annual % | ECB interest-rate data; document selected rate and tenor |
+|R_USD | USD annual interest rate | 3.88% | Annual % | Federal Reserve H.15, effective federal funds rate (overnight); observation date: 2026-11-06; accessed: 2026-11-09
+|R_FC | EUR annual interest rate | 2.50% | Annual % | ECB deposit facility rate (overnight); effective 2026-09-16 and in effect on 2026-11-06; accessed: 2026-11-09
 | `T_DAYS` | Days to settlement | 182 | Days | Assigned Scenario 33 instructions |
 | `K_PUT` | EUR put option strike | Equal to `S0_in` | USD per EUR | Assigned Scenario 33 instructions; strike at spot |
 | `K_CALL` | EUR call option strike | Equal to `S0_in` | USD per EUR | Assigned Scenario 33 instructions; strike at spot |
