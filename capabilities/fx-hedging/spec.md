@@ -33,20 +33,42 @@ A U.S. mining-shovel manufacturer has an outstanding receivable of **EUR 14,500,
 
 All ten required inputs must be exposed as standardized workbook named ranges. The calculation formulas must reference these names rather than individual Excel cell addresses. Scenario-provided values are **indicative, replaced with live data at Stage 4** where applicable. Spot and interest-rate placeholders must be populated with sourced market data during Stage 4. Sources and access dates must be recorded in the Notes tab.
 
-### 2.1 Core Inputs
+### 2.1 Named-Range Contract
 
-| Standardized Name | Description | Placeholder / Scenario Value | Unit | Stage 4 Data Source |
+All exchange rates are quoted in USD per EUR. Interest rates are annual percentages and are entered as decimals in calculations. The model uses an ACT/360 day-count convention.
+
+| Named Range | Description | Value | Unit | Source |
 |---|---|---:|---|---|
-| `FC_AMT` | Foreign-currency receivable | 14,500,000 | EUR | Assigned Scenario 33 instructions |
-|S0_in | Spot exchange rate at inception | 1.1165 | USD per EUR | ECB euro foreign exchange reference rate; observation date: 2026-11-06; accessed: 2026-11-09
-| `F0_in` | Forward rate to settlement | 1.1705 | USD per EUR | Assigned Scenario 33 instructions; indicative |
-|R_USD | USD annual interest rate | 3.88% | Annual % | Federal Reserve H.15, effective federal funds rate (overnight); observation date: 2026-11-06; accessed: 2026-11-09
-|R_FC | EUR annual interest rate | 2.50% | Annual % | ECB deposit facility rate (overnight); effective 2026-09-16 and in effect on 2026-11-06; accessed: 2026-11-09
-| `T_DAYS` | Days to settlement | 182 | Days | Assigned Scenario 33 instructions |
-| `K_PUT` | EUR put option strike | Equal to `S0_in` | USD per EUR | Assigned Scenario 33 instructions; strike at spot |
-| `K_CALL` | EUR call option strike | Equal to `S0_in` | USD per EUR | Assigned Scenario 33 instructions; strike at spot |
-| `PREM_PUT` | Put premium per EUR | 0.0194 | USD per EUR | Assigned Scenario 33 instructions; indicative |
-| `PREM_CALL` | Call premium per EUR | 0.0296 | USD per EUR | Assigned Scenario 33 instructions; indicative |
+| `FC_AMT` | Foreign-currency receivable | 14,500,000 | EUR | Scenario 33 instructions |
+| `S0_in` | Spot exchange rate at inception | 1.1165 | USD per EUR | ECB euro foreign exchange reference rate, November 6, 2026 |
+| `F0_in` | Assigned forward exchange rate | 1.1705 | USD per EUR | Scenario 33 instructions; indicative assigned rate |
+| `R_USD` | USD annual interest rate | 3.88% | Annual % | Federal Reserve H.15, effective federal funds rate (overnight), November 6, 2026 |
+| `R_FC` | EUR annual interest rate | 2.50% | Annual % | ECB deposit facility rate (overnight), effective September 16, 2026 |
+| `K_PUT` | EUR put option strike price | `=S0_in` | USD per EUR | Scenario assumption: strike at inception spot |
+| `K_CALL` | EUR call option strike price | `=S0_in` | USD per EUR | Scenario assumption: strike at inception spot |
+| `PREM_PUT` | EUR put option premium | 0.0194 | USD per EUR | Scenario 33 instructions; indicative assigned premium |
+| `PREM_CALL` | EUR call option premium | 0.0296 | USD per EUR | Scenario 33 instructions; indicative assigned premium |
+| `T_DAYS` | Days to settlement | 182 | Days | Scenario 33 instructions |
+
+**Market Data Conventions and Sources**
+
+- `S0_in` is the ECB euro foreign exchange reference rate for November 6, 2026. The ECB reported 1 EUR = 1.1165 USD.
+  Source: https://www.ecb.europa.eu/stats/shared/pdf/eurofxref.pdf
+
+- `R_USD` is the Federal Reserve effective federal funds rate of 3.88% reported for November 6, 2026.
+  Source: https://www.federalreserve.gov/releases/H15/Current/
+
+- `R_FC` is the ECB deposit facility rate of 2.50%, effective September 16, 2026, and in effect on November 6, 2026.
+  Source: https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html
+
+- The USD and EUR rates are overnight benchmark proxies, not transaction-specific borrowing or deposit quotes. They are used as annualized reference rates for the model's ACT/360 calculations.
+
+- Market-data observation date: November 6, 2026.
+- Market-data access date: November 9, 2026.
+
+**Scenario-Provided Values**
+
+The assigned forward rate (`F0_in`) and option premiums (`PREM_PUT` and `PREM_CALL`) are scenario-provided indicative values. They remain unchanged for this model unless the assignment specifies otherwise. The spot rate and interest rates are populated with the dated market observations listed above.
 
 **Input conventions:**
 
@@ -59,19 +81,29 @@ All ten required inputs must be exposed as standardized workbook named ranges. T
 - All scenario-provided market values (F0_in, PREM_PUT, and PREM_CALL) are indicative, replaced with live data at Stage 4. The spot rate (S0_in) and interest rates (R_USD and R_FC) are placeholders to be populated with sourced market data during Stage 4.
 
 ### 2.2 Derived Values
+| Name | Description | Calculation | Unit |
+|---|---|---|---|
+| `DF_USD` | USD accumulation factor | `1 + R_USD * T_DAYS / 360` | Factor |
+| `DF_FC` | EUR accumulation factor | `1 + R_FC * T_DAYS / 360` | Factor |
+| `S_T_grid` | Settlement spot-rate sensitivity grid | `S0_in * 0.95` through `S0_in * 1.05` in 1% increments | USD per EUR |
+| `USD_NO_HEDGE` | Unhedged USD proceeds | `FC_AMT * S_T` | USD |
+| `USD_FWD` | Forward hedge proceeds | `FC_AMT * F0_in` | USD |
+| `MM_BORROW_FC` | EUR borrowed at inception | `FC_AMT / DF_FC` | EUR |
+| `MM_USD_NOW` | USD received from converting borrowed EUR | `MM_BORROW_FC * S0_in` | USD |
+| `USD_MM` | Money-market hedge proceeds | `MM_USD_NOW * DF_USD` | USD |
+| `F_IMPLIED` | Forward rate implied by covered interest rate parity | `S0_in * DF_USD / DF_FC` | USD per EUR |
+| `PARITY_DIFF` | Difference between money-market proceeds and parity-implied proceeds | `USD_MM - (FC_AMT * F_IMPLIED)` | USD |
+| `PREM_PUT_FV` | Put option premium carried to settlement | `FC_AMT * PREM_PUT * DF_USD` | USD |
+| `PREM_CALL_FV` | Call option premium carried to settlement | `FC_AMT * PREM_CALL * DF_USD` | USD |
+| `USD_FLOOR_PUT` | Minimum put-based proceeds after carrying the premium to settlement | `FC_AMT * K_PUT - PREM_PUT_FV` | USD |
 
-| Name | Description | Calculation |
-|---|---|---|
-| `DF_USD` | USD accumulation factor | `1 + R_USD × T_DAYS / 360` |
-| `DF_FC` | EUR accumulation factor | `1 + R_FC × T_DAYS / 360` |
-| `S_T_grid` | Settlement spot-rate sensitivity grid | `S0_in × 0.95` through `S0_in × 1.05` in 1% increments |
-| `USD_NO_HEDGE` | Unhedged USD proceeds | `FC_AMT × S_T` |
-| `USD_FWD` | Forward hedge proceeds | `FC_AMT × F0_in` |
-| `MM_BORROW_FC` | EUR borrowed at inception | `FC_AMT / DF_FC` |
-| `MM_USD_NOW` | USD received from converting borrowed EUR | `MM_BORROW_FC × S0_in` |
-| `USD_MM` | Money-market hedge proceeds | `MM_USD_NOW × DF_USD` |
-| `F_IMPLIED` | Forward rate implied by interest-rate parity | `S0_in × DF_USD / DF_FC` |
-| `USD_FLOOR_PUT` | Minimum put-based proceeds | `FC_AMT × K_PUT − FC_AMT × PREM_PUT` |
+**Calculation Notes:**
+
+- `S_T` represents the hypothetical EUR settlement exchange rate used in each sensitivity scenario.
+- `S_T_grid` contains 11 settlement-rate scenarios from 95% to 105% of `S0_in` in 1% increments.
+- `PREM_PUT_FV` and `PREM_CALL_FV` account for the time value of option premiums paid upfront by carrying them to settlement using `DF_USD`.
+- `PARITY_DIFF` should equal approximately zero when the money-market hedge and implied forward calculations use consistent inputs and full precision.
+- `USD_FLOOR_PUT` represents the minimum modeled USD proceeds after deducting the put premium carried to settlement.
 
 ## 3. Assumptions & Constraints
 
