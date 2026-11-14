@@ -134,3 +134,60 @@ The instructor identified four areas requiring improvement:
 **Final review outcome:**
 
 The specification has been revised to address the instructor's November 7 feedback. The updated market inputs, premium treatment, expected check figures, and validation tolerance provide a more reproducible foundation for the Stage 3 workbook build.
+
+---
+
+## Stage 3 — AI-Assisted Build + Audit
+
+**Date:** November 13, 2026
+
+**Project:** Scenario 33 — Mining Shovels FX Hedging Model
+
+**AI Tool:** ChatGPT
+
+### 1. Workbook Build Prompt
+
+The committed Stage 2 specification at
+`capabilities/fx-hedging/spec.md` was provided as the source
+for generating the Excel workbook.
+
+The build instructions required:
+
+- All ten standardized named ranges attached to their correct cells.
+- Formula-driven calculations referencing named ranges.
+- Cover and Legend-Key worksheets.
+- All three hedge families: forward, money market, and options.
+- A formula-driven sensitivity table and chart.
+- Visible parity validation and numerical checks.
+- The workbook saved as `model.xlsx`.
+
+### 2. Build Output
+
+**Required output:** `capabilities/fx-hedging/model.xlsx`
+
+**Build status:** [Enter whether the workbook was successfully generated.]
+
+### 3. Independent Audit
+
+The generated workbook was reviewed against the Stage 2
+specification and the Stage 3 build requirements.
+
+Audit areas included:
+
+- Named-range definitions and cell references.
+- Formula integrity and hard-coded values.
+- Money-market hedge calculation steps.
+- Put and call premium treatment.
+- Sensitivity table and chart functionality.
+- Parity validation and numerical check figures.
+- Worksheet structure and color conventions.
+
+### 4. Findings and Revisions
+
+[Document the actual audit findings, defects, and corrections.]
+
+### 5. Final Build Status
+
+[Document whether the workbook was regenerated after any
+specification revisions and whether it satisfies the Stage 3
+requirements.]
