@@ -1,33 +1,41 @@
 # FX Hedging — Scenario 33: Mining Shovels
 
-This capability evaluates foreign exchange (FX) hedging strategies for a U.S. mining-shovel manufacturer with a €14,500,000 receivable due in 182 days from a Finnish nickel miner. The project compares different hedging strategies and their effects on the company's USD cash flows.
+This capability evaluates foreign-exchange hedging strategies for a U.S. mining-shovel manufacturer with a EUR 14,500,000 receivable due in 182 days from a Finnish nickel miner. The model compares the USD cash-flow outcomes of an unhedged position, a forward hedge, a money-market hedge, and option-based strategies.
 
 ## Project Stages
 
-- **Stage 1 — Executive Brief:** Define the currency exposure, quantify the risk, and establish assumptions and a hypothesis.
-- **Stage 2 — Model Specification:** Document the workbook structure, standardized named ranges, calculation formulas, sensitivity analysis, and validation requirements in `spec.md`.
-- **Stage 3 — AI-Assisted Build + Audit:** Build the Excel workbook in `model.xlsx` and document the build and audit process.
-- **Stage 4 — Market Data + Population:** Populate the workbook with sourced, timestamped market data.
-- **Stage 5 — Validation + Decision Memo:** Independently validate the model and document the final hedge recommendation.
+1. **Stage 1 — Executive Brief:** Define the currency exposure, quantify the risk, and establish assumptions and a hypothesis.
+2. **Stage 2 — Model Specification:** Document the workbook structure, standardized named ranges, calculation formulas, sensitivity analysis, and validation requirements in `spec.md`.
+3. **Stage 3 — AI-Assisted Build + Audit:** Build `model.xlsx` from the committed specification, test the workbook against the instructor's seven requirements, and document the build and audit process.
+4. **Stage 4 — Market Data + Population:** Confirm or replace the model inputs with appropriate sourced, timestamped market data and populate the workbook.
+5. **Stage 5 — Validation + Decision Memo:** Independently validate the model, compare the hedging strategies, and prepare the final hedge recommendation.
 
-## Stage 2 Files
+## Project Files
 
-- `README.md` — Overview of the FX hedging capability, project scenario, stages, and files.
-- `spec.md` — Stage 2 technical specification defining the model inputs, named ranges, workbook tab architecture, calculation flow, assumptions, sensitivity analysis, and validation rules.
-- `prompt-log.md` — Documents AI feedback, specification revisions, and at least one draft-to-revision example.
+| File | Purpose |
+|---|---|
+| `README.md` | Project overview, stages, and current status |
+| `spec.md` | Technical specification and workbook requirements |
+| `prompt-log.md` | Record of AI prompts, feedback, revisions, and build activity |
+| `model.xlsx` | Stage 3 Excel workbook |
+| `analysis/2026-11-13-scenario-33-build-audit-analysis.md` | Stage 3 workbook build and audit record |
 
 ## Hedge Strategies
 
-The planned model compares:
+The model compares:
 
-- Unhedged exposure
-- Forward hedge
-- Money-market hedge
-- EUR put option
-- EUR call option payoff
+- **Unhedged exposure:** Converts the EUR receivable at the future settlement spot rate.
+- **Forward hedge:** Locks in the assigned forward exchange rate.
+- **Money-market hedge:** Borrows EUR, converts the borrowed amount into USD, and invests the USD until settlement.
+- **EUR put option:** Provides a minimum modeled USD proceeds floor while retaining upside participation.
+- **EUR call option:** Reports the separate call payoff after its premium; it is not presented as total receivable proceeds.
 
 ## Current Status
 
-**Stage 2 — Model Specification**
+**Stage 3 — AI-Assisted Build + Audit
 
-The technical specification and prompt log are documented. The specification is intended to guide the Stage 3 Excel workbook build. Live market-data sourcing and population are planned for Stage 4.
+The Stage 2 technical specification defines the ten standardized input names, calculation formulas, hedge strategies, sensitivity analysis, and validation requirements. Stage 3 requires the Excel workbook to be built and tested against the instructor's seven requirements.
+
+The workbook audit must verify the named ranges, formula integrity, worksheet structure and formatting, all three hedge families, sensitivity table and chart, and visible validation checks. Audit findings must be based on actual workbook inspection. Any defects and corrections must be documented before Stage 3 is considered complete.
+
+Stage 4 market-data confirmation and population, followed by Stage 5 independent validation and the decision memo, remain subsequent project stages.
