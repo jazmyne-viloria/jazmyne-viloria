@@ -1,120 +1,123 @@
-# Scenario 33 — FX Hedging Workbook Build Audit
 
-| Field | Details |
+# Scenario 33 — Mining Shovels: Stage 3 Build Audit
+
+| Item | Details |
 |---|---|
 | Author | Jazmyne Viloria |
-| Course | FIN 321 — International Finance and Securities |
+| Course | FIN 321 |
 | Stage | Stage 3 — AI-Assisted Build + Audit |
-| Scenario | Scenario 33 — Mining Shovels |
+| Scenario | 33 — Mining Shovels |
 | Audit Date | November 13, 2026 |
 | Workbook | `capabilities/fx-hedging/model.xlsx` |
 | Specification | `capabilities/fx-hedging/spec.md` |
 
----
-
 ## 1. Build Overview
 
-The Stage 3 workbook was generated using the Stage 2 technical specification for Scenario 33 — Mining Shovels.
+The Scenario 33 Excel workbook was generated using the Stage 2 specification in `spec.md`. The purpose of this audit is to evaluate the workbook against the seven requirements in the Stage 3 assignment and verify that its calculations, formulas, named ranges, sensitivity analysis, and validation checks follow the specification.
 
-The workbook compares the unhedged EUR receivable with forward, money-market, put-option, and call-option hedging strategies.
-
-The generated workbook was reviewed against the specification's requirements for named ranges, formula-driven calculations, worksheet architecture, formatting, sensitivity analysis, and validation checks.
+The audit focuses on the workbook itself rather than assuming that generated formulas or outputs are correct.
 
 ## 2. Workbook Structure
 
-| Worksheet | Purpose | Audit Result |
+The specification requires the following eight worksheets:
+
+| Worksheet | Required Contents | Audit Result |
 |---|---|---|
-| Cover | Scenario overview and data provenance | Pending audit |
-| Legend-Key | Workbook formatting conventions | Pending audit |
-| Inputs | Ten standardized named-range inputs | Pending audit |
-| Forward Hedge | Forward hedge proceeds | Pending audit |
-| Money Market Hedge | Three-step money-market hedge | Pending audit |
-| Option Hedge | Put and call calculations | Pending audit |
-| Sensitivity | Sensitivity table and chart | Pending audit |
-| Notes & Assumptions | Sources, assumptions, and limitations | Pending audit |
+| Cover | Scenario information, author, date, and data provenance | Pending audit |
+| Legend-Key | Workbook color conventions | Pending audit |
+| Inputs | Ten standardized named ranges and source assumptions | Pending audit |
+| Forward Hedge | Forward contract settlement proceeds | Pending audit |
+| Money Market Hedge | Foreign-currency borrowing, spot conversion, and USD investment | Pending audit |
+| Option Hedge | Put and call payoffs, premiums, and net proceeds | Pending audit |
+| Sensitivity | Formula-driven sensitivity table and chart | Pending audit |
+| Notes & Assumptions | Methodology, limitations, and assumptions | Pending audit |
 
 ## 3. Audit Findings
 
 ### Finding 1 — Named Range Verification
 
-**What I checked:**
+**What was checked:**  
+The workbook's Name Manager was checked against the ten standardized named ranges required by `spec.md`. Each name must refer to its correct input cell on the Inputs worksheet. The put and call strike prices must be formula-linked to `S0_in`.
 
-[Document whether all ten named ranges exist and refer to their correct input cells.]
+**What was found:**  
+Pending workbook inspection. The audit must confirm that all ten names exist, refer to the correct cells, and use the required formulas for `K_PUT` and `K_CALL`.
 
-**What I found:**
-
-[Document the actual result.]
-
-**Action taken:**
-
-[Document any corrections or explain how the correct result was verified.]
+**Action taken:**  
+Pending verification. Any missing, incorrectly assigned, or improperly defined named ranges must be corrected in the workbook.
 
 ### Finding 2 — Formula Integrity
 
-**What I checked:**
+**What was checked:**  
+Calculated cells were checked across the hedge worksheets and sensitivity analysis. Formulas must reference standardized named ranges and scenario variables rather than hard-coded calculated values. The money market hedge must show all three calculation steps explicitly.
 
-[Inspect calculated cells to determine whether formulas reference named ranges instead of using hard-coded calculated values.]
+**What was found:**  
+Pending workbook inspection. The audit must identify whether calculated values use formulas, whether formulas reference the required named ranges, and whether any calculated results were entered as fixed values.
 
-**What I found:**
-
-[Document the actual result and any formula defects.]
-
-**Action taken:**
-
-[Document any corrections or explain how the correct result was verified.]
+**Action taken:**  
+Pending verification. Any hard-coded calculated values, broken references, or incorrect formulas must be corrected and documented.
 
 ### Finding 3 — Sensitivity and Option Calculations
 
-**What I checked:**
+**What was checked:**  
+The sensitivity table must calculate eleven exchange-rate scenarios from 95% to 105% of `S0_in`, in 1% increments. The chart must link to the sensitivity table. Put and call calculations must follow the premium treatment and payoff definitions in `spec.md`.
 
-[Check whether the sensitivity table recalculates when S0_in changes and whether the put and call calculations correctly account for option premiums.]
+The audit must also verify that the put premium is carried to settlement using `DF_USD`, and that the call premium is shown separately from the receivable proceeds.
 
-**What I found:**
+**What was found:**  
+Pending workbook inspection. The audit must confirm that the sensitivity scenarios are formula-driven, the chart reflects the table, and the option calculations follow the specification.
 
-[Document the actual result.]
-
-**Action taken:**
-
-[Document any corrections or explain how the correct result was verified.]
+**Action taken:**  
+Pending verification. Any incorrect sensitivity formulas, chart references, option payoff calculations, or premium treatments must be corrected.
 
 ## 4. Numerical Validation
 
-| Calculation | Expected Result | Actual Workbook Result | Status |
+The following figures from `spec.md` are the expected results for checking the workbook. Actual workbook results must be recorded after inspection.
+
+| Validation Item | Expected Result | Actual Workbook Result | Status |
 |---|---:|---:|---|
-| DF_USD | 1.01961556 | [Enter result] | [Pass/Fail] |
-| DF_FC | 1.01263889 | [Enter result] | [Pass/Fail] |
-| MM_BORROW_FC | €14,319,023.45 | [Enter result] | [Pass/Fail] |
-| MM_USD_NOW | $15,987,189.69 | [Enter result] | [Pass/Fail] |
-| USD_MM | $16,300,787.29 | [Enter result] | [Pass/Fail] |
-| F_IMPLIED | 1.12419223 | [Enter result] | [Pass/Fail] |
-| PARITY_DIFF | $0.00 | [Enter result] | [Pass/Fail] |
-| PREM_PUT_FV | $286,817.86 | [Enter result] | [Pass/Fail] |
-| PREM_CALL_FV | $437,619.00 | [Enter result] | [Pass/Fail] |
-| USD_FLOOR_PUT | $15,902,432.14 | [Enter result] | [Pass/Fail] |
+| `DF_USD` | 1.01961556 | Pending audit | Pending |
+| `DF_FC` | 1.01263889 | Pending audit | Pending |
+| `MM_BORROW_FC` | €14,319,023.45 | Pending audit | Pending |
+| `MM_USD_NOW` | $15,987,189.69 | Pending audit | Pending |
+| `USD_MM` | $16,300,787.29 | Pending audit | Pending |
+| `F_IMPLIED` | 1.12419223 | Pending audit | Pending |
+| `PARITY_DIFF` | Approximately $0.00 | Pending audit | Pending |
+| `PREM_PUT_FV` | $286,817.86 | Pending audit | Pending |
+| `PREM_CALL_FV` | $437,619.00 | Pending audit | Pending |
+| `USD_FLOOR_PUT` | $15,902,432.14 | Pending audit | Pending |
 
-The parity validation tolerance is:
-
-`ABS(PARITY_DIFF) <= $0.01`
-
-Any failed validation must be reported and explained rather than forced to pass.
+The parity check should be within the specification's $0.01 tolerance. Any failed validation must be reported and investigated rather than adjusted to force a passing result.
 
 ## 5. Formula and Sensitivity Testing
 
-The following tests were performed:
+The following tests must be completed in Excel before the audit is finalized:
 
-- [Document whether all ten named ranges exist and reference the correct cells.]
-- [Document whether calculated cells contain formulas rather than pasted values.]
-- [Document whether changing S0_in updates the sensitivity table and chart.]
-- [Document whether the sensitivity table contains 11 scenarios from 95% to 105% of S0_in.]
-- [Document whether the money-market hedge contains three explicit steps.]
-- [Document whether the put premium is carried to settlement.]
-- [Document whether the call payoff is separate from the receivable proceeds.]
-- [Document whether the chart matches the sensitivity table.]
+| Test | Expected Behavior | Result |
+|---|---|---|
+| Change `S0_in` | Strike prices and dependent calculations update | Pending |
+| Check named ranges | All ten names refer to the correct input cells | Pending |
+| Check forward hedge | Settlement proceeds equal `FC_AMT × F0_in` | Pending |
+| Check money market hedge | All three steps calculate using the specified formulas | Pending |
+| Check put option | Premium is carried to settlement and deducted from proceeds | Pending |
+| Check call option | Net payoff reflects the call payoff less the carried premium | Pending |
+| Check sensitivity table | Eleven scenarios recalculate from `S0_in` | Pending |
+| Check sensitivity chart | Chart updates with the sensitivity table | Pending |
 
 ## 6. Defects and Corrections
 
-[Describe any defects discovered, their corresponding specification changes, and whether the workbook was regenerated.]
+No defects or corrections are recorded until the workbook has been inspected.
+
+If a defect is identified, document:
+- The worksheet and calculation affected.
+- The incorrect result or formula.
+- The correction made to the specification or workbook.
+- Whether the workbook was regenerated after the correction.
+- The result of the follow-up test.
+
+If no specification changes are necessary, state that the workbook was corrected directly or that no defects were identified, as supported by the audit evidence.
 
 ## 7. Audit Conclusion
 
-[Summarize whether the workbook satisfies the Stage 3 requirements, identify remaining limitations, and state whether it is ready for Stage 4 market-data population.]
+The Stage 3 audit is not complete until the workbook has been checked against all seven instructor requirements, the numerical validation results have been compared with the expected figures, and the sensitivity and formula tests have been completed.
+
+The final conclusion will summarize the requirements that passed, any defects identified, the corrections made, and any remaining limitations. No requirement will be reported as passing without supporting workbook evidence.
