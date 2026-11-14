@@ -137,6 +137,7 @@ The specification has been revised to address the instructor's November 7 feedba
 
 ---
 
+
 ## Stage 3 — AI-Assisted Build + Audit
 
 **Date:** November 13, 2026
@@ -147,53 +148,39 @@ The specification has been revised to address the instructor's November 7 feedba
 
 ### 1. Workbook Build
 
-**Source specification:**
-
-The committed Stage 2 specification at
-`capabilities/fx-hedging/spec.md` was provided as the source
-for generating the Excel workbook.
+**Source specification:** `capabilities/fx-hedging/spec.md`
 
 **Build prompt submitted:**
 
-> Here is my model specification. Build the workbook it specifies. Every requirement in the spec's build contract is binding: all ten named ranges, formulas only (no pasted values), cover page, Legend/Key tab with the color convention, all three hedge families, the ±5% sensitivity table with chart, and the validation checks computed in the workbook.
->
-> Give me the result as a downloadable .xlsx file — not a table in the chat, not a .csv, and not a Word or PDF document.
->
-> If anything in the spec is ambiguous, ask me questions before you build.
-
-**Additional build requirements clarified from the specification:**
-
-- Cover worksheet content, including scenario, author, preparation date, exposure details, and data provenance.
-- Legend-Key formatting conventions: Yellow = Inputs, Blue = Assumptions, Green = Formulas, and Gray = Outputs.
-- All ten named ranges attached to their correct input cells, including `K_PUT` and `K_CALL` linked to `S0_in`.
-- Formula-driven calculations and sensitivity scenarios.
-- A sensitivity chart linked to the sensitivity table.
-- Visible parity validation and numerical check figures from Section 7 of the specification.
+[Paste the exact prompt submitted to generate the Excel workbook, including any additional instructions.]
 
 **Required workbook output:** `capabilities/fx-hedging/model.xlsx`
 
 ### 2. Workbook Audit
 
-The generated workbook was reviewed against the committed Stage 2 specification and the seven Stage 3 build requirements.
+The generated workbook was audited against the committed Stage 2 specification and the seven Stage 3 build requirements.
 
-**Audit areas included:**
+**Audit areas:**
 
-- All ten named ranges and their cell references.
+- Ten named ranges and their cell references.
 - Formula integrity and hard-coded calculated values.
 - Cover worksheet and Legend-Key formatting.
 - Forward hedge and three-step money-market hedge calculations.
 - Put and call option payoffs and premium treatment.
-- Sensitivity table calculations and chart functionality.
+- Formula-driven sensitivity table and linked chart.
 - Parity validation and Section 7 numerical check figures.
 
-The audit followed the instructor's required process: check the workbook, document what was found, and correct defects at their source rather than manually patching the workbook.
+**Audit findings:**
 
-**Audit findings:** The detailed findings, including what was checked, what was found, and what was done, are documented in:
-
-`analysis/2026-11-13-scenario-33-build-audit-analysis.md`
+The audit results, including what was checked, what was found, and what was done, are documented in `analysis/2026-11-13-scenario-33-build-audit-analysis.md`.
 
 ### 3. Workbook Revisions and Final Output
 
-Any identified specification defects were corrected in `spec.md`, and the workbook was regenerated from the revised specification when necessary.
+**Defects identified:** [Summarize actual defects found, or state the substantive checks that were confirmed.]
+
+**Specification changes:** [Identify any specification changes made in response to the audit. If none were necessary, state that.]
+
+**Workbook regeneration:** [State whether the workbook was regenerated after specification changes.]
 
 **Final workbook:** `capabilities/fx-hedging/model.xlsx`
+
