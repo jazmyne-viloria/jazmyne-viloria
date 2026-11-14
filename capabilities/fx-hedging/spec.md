@@ -6,8 +6,8 @@
 | **Created by** | Jazmyne Viloria |
 | **Updated by** | Jazmyne Viloria |
 | **Date Created** | 2026-11-05 |
-| **Date Updated** | 2026-11-09 |
-| **Version** | 0.3 |
+| **Date Updated** | 2026-11-13 |
+| **Version** | 0.4 |
 | **LLM Used** | ChatGPT — feedback and specification review |
 | **Role** | Treasury Analyst |
 | **Audience** | CFO / Director of Treasury |
@@ -317,8 +317,8 @@ The workbook must contain the following tabs, with each tab clearly named and us
 
 | Tab Name | Purpose |
 |---|---|
-| `Cover` | Identifies Scenario 33, the receivable exposure, model objective, and key results. |
-| `Legend-Key` | Explains input, assumption, formula, and cross-tab formatting. |
+| `Cover` | Identifies Scenario 33, the model title, author (Jazmyne Viloria), preparation date, exposure details, model objective, key results, and a data-provenance block identifying scenario-provided indicative values and sourced market observations. |
+| `Legend-Key` | Defines and displays the workbook-wide formatting convention: Yellow = Inputs; Blue = Assumptions; Green = Formulas; Gray = Outputs. Apply these colors consistently throughout all worksheets. |
 | `Inputs` | Contains all ten named-range inputs, units, values, sources, and access dates. |
 | `Forward Hedge` | Calculates locked-in USD proceeds using the forward rate. |
 | `Money Market Hedge` | Displays the three borrowing, conversion, and investment steps. |
@@ -342,6 +342,16 @@ The workbook must contain the following tabs, with each tab clearly named and us
 | Strategy summary | Key proceeds, premiums, and parity difference | Provides an at-a-glance comparison for the CFO |
 
 All calculated outputs must be formula-driven rather than manually entered values, excluding designated input cells. The `Legend-Key` tab must identify the workbook's formatting conventions.
+
+### Workbook Construction Requirements
+
+- Define all ten standardized named ranges in Excel Name Manager and attach each name to its corresponding input cell on the `Inputs` worksheet.
+- The `K_PUT` and `K_CALL` input cells must reference `S0_in` through formulas rather than manually entered duplicate values.
+- Every calculated cell must contain an Excel formula. Formulas must reference the standardized named ranges and applicable scenario variables rather than hard-coded input values or manually pasted calculation results.
+- Sensitivity scenarios must be generated using formulas linked to `S0_in`, not manually entered exchange-rate values.
+- The sensitivity chart must reference the sensitivity table so that changes in model inputs automatically update the chart.
+- Display validation checks and their calculated results directly in the workbook. Failed checks must remain visible and must not be manually overridden.
+- Apply the Legend-Key color convention consistently throughout all eight worksheets.
 
 ## 6. Model Review — What Worked & What to Improve
 
@@ -394,6 +404,27 @@ This specification establishes the calculation structure before the Excel workbo
 - **Expected strategy comparison:** With the specified inputs, the forward hedge produces the highest modeled receivable proceeds from 95% through 104% of the initial spot rate. The unhedged strategy produces the highest proceeds at 105%.
 - **Purpose:** Demonstrate how changes in the EUR/USD exchange rate affect the company's USD proceeds and compare the trade-offs between certainty, downside protection, and upside participation.
 
+### Numerical Sensitivity Check Figures
+
+Using the Section 2.1 inputs and carrying option premiums to settlement, the following values are expected at the lower boundary, initial spot rate, and upper boundary of the sensitivity grid.
+
+| Settlement Scenario | `S_T` | `USD_NO_HEDGE` | `USD_FWD` | `USD_MM` | `USD_PUT` | `USD_CALL_NET` |
+|---|---:|---:|---:|---:|---:|---:|
+| 95% of `S0_in` | 1.060675 | $15,379,787.50 | $16,972,250.00 | $16,300,787.29 | $15,902,432.14 | -$437,619.00 |
+| 100% of `S0_in` | 1.116500 | $16,189,250.00 | $16,972,250.00 | $16,300,787.29 | $15,902,432.14 | -$437,619.00 |
+| 105% of `S0_in` | 1.172325 | $16,998,712.50 | $16,972,250.00 | $16,300,787.29 | $16,711,894.64 | $371,843.50 |
+
+**Expected sensitivity validation:**
+
+- The sensitivity table must contain exactly 11 settlement-rate scenarios, from 95% through 105% of `S0_in` in 1% increments.
+- Forward proceeds must remain constant at USD 16,972,250.00 across all scenarios.
+- Money-market proceeds must remain constant at approximately USD 16,300,787.29 across all scenarios.
+- Put proceeds must not fall below the expected minimum of USD 15,902,432.14.
+- The forward hedge produces the highest modeled receivable proceeds from 95% through 104% of `S0_in`.
+- The unhedged strategy produces the highest modeled receivable proceeds at 105% of `S0_in`.
+- The call option's net payoff must remain separate from total receivable proceeds.
+- The workbook must calculate all 11 scenarios using formulas rather than manually entered results.
+  
 ## 8. Limitations & Next Steps
 
 **Limitations.** This model does not incorporate:
@@ -421,3 +452,4 @@ This specification establishes the calculation structure before the Excel workbo
 | 0.1 | 2026-11-05 | Jazmyne Viloria | Initial Scenario 33 specification draft. |
 | 0.2 | 2026-11-05 | Jazmyne Viloria | Revised to align with the professor's template and Stage 2 checklist; clarified named ranges, calculation flow, sensitivity, and validation requirements. |
 | 0.3 | 2026-11-09 | Jazmyne Viloria | Incorporated instructor feedback; populated spot and interest-rate inputs with dated sources; revised option premium timing to carry premiums to settlement; added expected money-market, implied-forward, and put-floor check figures; established a USD 0.01 parity tolerance; updated sensitivity results and audit checks. |
+| 0.4 | 2026-11-13 | Jazmyne Viloria | Added explicit workbook construction requirements, detailed Cover and Legend-Key requirements, and numerical sensitivity check figures to support the Stage 3 AI-assisted workbook build and audit. |
