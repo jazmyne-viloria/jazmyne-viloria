@@ -145,49 +145,55 @@ The specification has been revised to address the instructor's November 7 feedba
 
 **AI Tool:** ChatGPT
 
-### 1. Workbook Build Prompt
+### 1. Workbook Build
+
+**Source specification:**
 
 The committed Stage 2 specification at
 `capabilities/fx-hedging/spec.md` was provided as the source
 for generating the Excel workbook.
 
-The build instructions required:
+**Build prompt submitted:**
 
-- All ten standardized named ranges attached to their correct cells.
-- Formula-driven calculations referencing named ranges.
-- Cover and Legend-Key worksheets.
-- All three hedge families: forward, money market, and options.
-- A formula-driven sensitivity table and chart.
-- Visible parity validation and numerical checks.
-- The workbook saved as `model.xlsx`.
+> Here is my model specification. Build the workbook it specifies. Every requirement in the spec's build contract is binding: all ten named ranges, formulas only (no pasted values), cover page, Legend/Key tab with the color convention, all three hedge families, the ±5% sensitivity table with chart, and the validation checks computed in the workbook.
+>
+> Give me the result as a downloadable .xlsx file — not a table in the chat, not a .csv, and not a Word or PDF document.
+>
+> If anything in the spec is ambiguous, ask me questions before you build.
 
-### 2. Build Output
+**Additional build requirements clarified from the specification:**
 
-**Required output:** `capabilities/fx-hedging/model.xlsx`
+- Cover worksheet content, including scenario, author, preparation date, exposure details, and data provenance.
+- Legend-Key formatting conventions: Yellow = Inputs, Blue = Assumptions, Green = Formulas, and Gray = Outputs.
+- All ten named ranges attached to their correct input cells, including `K_PUT` and `K_CALL` linked to `S0_in`.
+- Formula-driven calculations and sensitivity scenarios.
+- A sensitivity chart linked to the sensitivity table.
+- Visible parity validation and numerical check figures from Section 7 of the specification.
 
-**Build status:** [Enter whether the workbook was successfully generated.]
+**Required workbook output:** `capabilities/fx-hedging/model.xlsx`
 
-### 3. Independent Audit
+### 2. Workbook Audit
 
-The generated workbook was reviewed against the Stage 2
-specification and the Stage 3 build requirements.
+The generated workbook was reviewed against the committed Stage 2 specification and the seven Stage 3 build requirements.
 
-Audit areas included:
+**Audit areas included:**
 
-- Named-range definitions and cell references.
-- Formula integrity and hard-coded values.
-- Money-market hedge calculation steps.
-- Put and call premium treatment.
-- Sensitivity table and chart functionality.
-- Parity validation and numerical check figures.
-- Worksheet structure and color conventions.
+- All ten named ranges and their cell references.
+- Formula integrity and hard-coded calculated values.
+- Cover worksheet and Legend-Key formatting.
+- Forward hedge and three-step money-market hedge calculations.
+- Put and call option payoffs and premium treatment.
+- Sensitivity table calculations and chart functionality.
+- Parity validation and Section 7 numerical check figures.
 
-### 4. Findings and Revisions
+The audit followed the instructor's required process: check the workbook, document what was found, and correct defects at their source rather than manually patching the workbook.
 
-[Document the actual audit findings, defects, and corrections.]
+**Audit findings:** The detailed findings, including what was checked, what was found, and what was done, are documented in:
 
-### 5. Final Build Status
+`analysis/2026-11-13-scenario-33-build-audit-analysis.md`
 
-[Document whether the workbook was regenerated after any
-specification revisions and whether it satisfies the Stage 3
-requirements.]
+### 3. Workbook Revisions and Final Output
+
+Any identified specification defects were corrected in `spec.md`, and the workbook was regenerated from the revised specification when necessary.
+
+**Final workbook:** `capabilities/fx-hedging/model.xlsx`
