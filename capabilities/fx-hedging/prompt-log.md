@@ -2,7 +2,7 @@
 
 **Project:** Scenario 33 — Mining Shovels  
 **Course:** FIN 321 — International Finance and Securities  
-**Stage:** Stage 2 — Model Specification  
+**Stage:** Stages 2–3 — Model Specification and AI-Assisted Build + Audit 
 **Author:** Jazmyne Viloria
 
 ---
