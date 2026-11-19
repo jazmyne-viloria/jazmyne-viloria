@@ -251,7 +251,7 @@ Stage 4 market-data confirmation and population remain separate from the Stage 3
 **Verification:**
 
 - The workbook was recalculated and no sheet showed formula errors. The parity check passed and the sensitivity table and chart re-centred on the new spot.
-- The ECB spot was read through a secondary source and cross-checked against other market quotes. [Add here if you re-pulled any values from the primary sources yourself; delete this line if you did not.]
+- The ECB spot was read through a secondary source and cross-checked against other market quotes. I then re-checked the spot, the Treasury 1-year yield and the 12-month Euribor fixing on their primary sites and confirmed the values.
 
 ### 10.2 Follow-up: rate tenor
 
