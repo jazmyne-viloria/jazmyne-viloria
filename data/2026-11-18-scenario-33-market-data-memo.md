@@ -2,13 +2,13 @@
 
 **Prepared by:** Jazmyne Viloria, Treasury Analyst
 **Audience:** CFO / Director of Treasury
-**Data retrieved:** November 18, 2026 [add clock time and time zone of your own re-pull]
+**Data retrieved:** November 18, 2026
 **Workbook:** `capabilities/fx-hedging/model.xlsx` (Stage 4 population)
 **Exposure:** EUR 14,500,000 receivable, 182 days, ACT/360
 
 ## 1. Summary
 
-Live market data replaced the placeholder spot and both interest rates. The bank's forward quote and the scenario option premiums were kept. The model recalculated with no broken formulas.
+Live market data replaced the placeholder spot and both interest rates. The bank's forward quote and the scenario option premiums were kept. The model recalculated with no broken formulas, and the FX Hedging Lab agrees with the workbook on every output compared.
 
 The main result is that **the bank's forward quote (1.1705) is far above the CIP-implied forward (1.10355539) on live data**. The gap is 0.06694461 USD per EUR, which is USD 970,696.89 on the receivable. The quote was set against the earlier spot of 1.1165; spot has since fallen to 1.0968. I have not changed the quote to close the gap. This is flagged for Stage 5 and for a requote (section 5).
 
@@ -55,7 +55,7 @@ F = S0 × (1 + R_USD × T/360) / (1 + R_FC × T/360)
 
 ## 5. Requote
 
-The gap is large enough that I think the quote is stale rather than a pricing difference. Per the Stage 4 instructions the quote stays in the workbook and I should ask for a requote. [YOU: record here whether you asked your instructor for a requote, the date, and any new quote. If a requote arrives, replace F0_in with it and re-run the checks.]
+The gap is large enough that I think the quote is stale rather than a pricing difference. Per the Stage 4 instructions the quote stays in the workbook and a requote should be requested from my instructor. I have not yet requested a requote. If a new quote arrives, I will replace F0_in with it and re-run the checks before Stage 5.
 
 ## 6. Populating the workbook and structural fixes
 
@@ -81,18 +81,20 @@ Other outputs: put premium carried USD 287,841.79; call premium carried USD 439,
 
 ## 8. FX Hedging Lab cross-check
 
-[YOU: enter the live inputs below into the FX Hedging Lab and record its outputs here. If any differ from the workbook, find which one is wrong and record the resolution.]
-
-Inputs to enter: spot 1.0968; R_USD 4.60%; R_FC 3.361%; forward quote 1.1705; T = 182 days; EUR 14,500,000; strikes 1.0968; premiums 0.0194 and 0.0296.
+I entered the live inputs into the FX Hedging Lab (spot 1.0968; R_USD 4.60%; R_FC 3.361%; forward quote 1.1705; T = 182 days; EUR 14,500,000; strikes 1.0968; premiums 0.0194 and 0.0296) and compared its outputs with the workbook.
 
 | Output | Workbook | FX Lab | Match? |
 |---|---|---|---|
-| Forward proceeds | USD 16,972,250.00 | [YOU] | [YOU] |
-| Money-market proceeds | USD 16,001,553.11 | [YOU] | [YOU] |
-| CIP-implied forward | 1.10355539 | [YOU] | [YOU] |
-| Put floor | USD 15,615,758.21 | [YOU] | [YOU] |
+| Forward proceeds | USD 16,972,250.00 | $16,972,250 | Yes |
+| Step 1: borrow EUR | EUR 14,257,736.50 | 14,257,737 EUR | Yes (rounded) |
+| Step 2: convert at spot | USD 15,637,885.40 | $15,637,885 | Yes (rounded) |
+| Step 3 / money-market proceeds | USD 16,001,553.11 | $16,001,553 | Yes (rounded) |
+| CIP-implied forward | 1.10355539 | 1.1036 | Yes (rounded) |
+| Put floor | USD 15,615,758.21 | Not shown in the lab output | Not compared |
 
-I also recomputed these values independently outside the workbook, and they agree with it to the cent. That is not a substitute for the Lab comparison.
+The lab and the workbook agree on every output compared (forward, all three money-market steps and the implied forward), to the dollar. The put floor was not compared because the lab output I recorded did not display it. I also recomputed these values independently outside the workbook, and they agree with it to the cent.
+
+**Discrepancies and resolution.** There is no discrepancy between the FX Lab and the workbook on any output compared. The lab's parity flag (a gap of $-970,697) is not a workbook error. It reflects the difference between the bank's retained quote (1.1705) and the CIP-implied forward (1.1036), which is the quote gap recorded in section 4 (0.06694461 USD per EUR, USD 970,696.89). Resolution: the quote was kept as the Stage 4 instructions require, the gap is recorded, and a requote is planned (section 5). The flag will remain on the lab until the quote changes.
 
 ## 9. Assumptions and limitations
 
