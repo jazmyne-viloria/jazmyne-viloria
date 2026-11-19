@@ -2,7 +2,7 @@
 
 **Project:** Scenario 33 — Mining Shovels  
 **Course:** FIN 321 — International Finance and Securities  
-**Stages Documented:** Stage 2 — Model Specification; Stage 3 — AI-Assisted Build + Audit  
+**Stages Documented:** Stage 2 — Model Specification; Stage 3 — AI-Assisted Build + Audit; Stage 4 — Market Data + Population
 **Author:** Jazmyne Viloria
 
 ---
@@ -225,3 +225,60 @@ Stage 3 is complete only when:
 - The audit note is saved at `analysis/2026-11-13-scenario-33-build-audit-analysis.md`.
 
 Stage 4 market-data confirmation and population remain separate from the Stage 3 build and audit.
+
+---
+
+## 10. Stage 4 — Market Data + Population
+
+**Date:** 2026-11-18  
+**Project:** Scenario 33 — Mining Shovels  
+**AI tool:** Claude (Anthropic)  
+**Deliverables:** `data/2026-11-18-scenario-33-market-data-memo.md`; `capabilities/fx-hedging/model.xlsx` (re-committed)
+
+### 10.1 Data hunt and population
+
+**Prompt submitted (summary):**
+
+> Here are my Stage 4 instructions and my current workbook. Retrieve live EURUSD spot and the USD and EUR interest rates as of the day I begin, document the source and timestamp for each, compute the CIP-implied forward, keep the bank's forward quote and the scenario premiums, enter the live values through the named-range input cells, and draft the market-data memo.
+
+**AI response or change:**
+
+- Retrieved spot 1.0968 (ECB reference rate for Nov. 18, 2026), R_USD 4.60% (U.S. Treasury 1-year par yield, Nov. 17, 2026) and R_FC 3.361% (12-month Euribor fixing, Nov. 17, 2026).
+- Computed the CIP-implied forward of 1.10355539 against the bank's quote of 1.1705: a gap of 0.06694461 USD per EUR, or USD 970,696.89 on the receivable.
+- Entered the live values in `S0_in`, `R_USD` and `R_FC`. Kept `F0_in`, `PREM_PUT`, `PREM_CALL`, `FC_AMT` and `T_DAYS`. Strikes remain formula-linked to `S0_in`.
+- Drafted the market-data memo.
+
+**Verification:**
+
+- The workbook was recalculated and no sheet showed formula errors. The parity check passed and the sensitivity table and chart re-centred on the new spot.
+- The ECB spot was read through a secondary source and cross-checked against other market quotes. [Add here if you re-pulled any values from the primary sources yourself; delete this line if you did not.]
+
+### 10.2 Follow-up: rate tenor
+
+**Prompt submitted (summary):**
+
+> My professor's Stage 4 page says R_USD and R_FC should be 1-year rates. Update the workbook and memo to follow the instructions.
+
+**Reason:** The first version used 6-month rates to match the 182-day horizon, which differed from the instruction.
+
+**AI response or change:** Replaced the rates with the 1-year Treasury yield (4.60%) and the 12-month Euribor fixing (3.361%). Updated the workbook's source text and expected check figures and the memo's tables. The memo notes that 6-month rates would give a gap of USD 957,536, so the conclusion does not depend on the tenor.
+
+**Verification:** Recalculated the workbook and confirmed no errors and the new values (implied forward 1.10355539, money-market proceeds USD 16,001,553.11).
+
+### 10.3 Structural findings
+
+**AI-identified issues and changes:**
+
+- The Sensitivity sheet's expected winners ("Forward wins 95%–104%") were tied to placeholder inputs. On live data the forward wins all 11 scenarios. Relabelled that cell as the Stage 3 expectation and added a formula that reports the live winner count. No input was changed to make it true.
+- Added three rows on the Money Market Hedge sheet reporting the quote-vs-implied gap as a rate, in USD, and as a premium over spot.
+- Noted that the parity check is zero by algebra and does not test the data; the quote-vs-implied comparison is the meaningful test.
+
+### 10.4 FX Lab cross-check
+
+**Action:** I entered the live inputs into the FX Hedging Lab and compared its outputs with the workbook.
+
+**Result:** The forward proceeds ($16,972,250), the three money-market steps (EUR 14,257,737; $15,637,885; $16,001,553) and the implied forward (1.1036) matched the workbook. The lab's parity flag (gap of $-970,697) reflects the retained bank quote versus the CIP-implied forward, not a workbook error. Recorded in memo section 8.
+
+### 10.5 Status
+
+The memo and workbook are committed. Open item for Stage 5: the quote gap and the requote request (memo section 5).
