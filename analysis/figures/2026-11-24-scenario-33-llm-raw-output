@@ -1,3 +1,16 @@
+# Raw LLM Output — Scenario 33, Stage 5 Independent Run
+
+- **Tool and model:** CoPilot, new chat, no history
+- **Date and time of run:** Tuesday, November 24, 2026, 11:15 AM HST
+- **Documents provided (only these two):** `capabilities/fx-hedging/spec.md` and `data/2026-11-18-scenario-33-market-data-memo.md`
+- **Prompt submitted:**
+
+> You are given two documents: a model specification and a market-data memo for an FX hedging scenario. Use only these two documents. Compute the USD proceeds of every hedge strategy the specification describes: unhedged, forward, money-market, put option and call option. Evaluate them at settlement rates S_T equal to 95%, 100% and 105% of the initial spot rate. Show your arithmetic step by step and list every assumption you had to make or any point where the documents were unclear. Then recommend one strategy to the CFO and explain why.
+
+**Status:** Unedited output of the session, pasted verbatim below. It is compared with the workbook in `analysis/2026-11-24-scenario-33-validation-analysis.md`.
+
+---
+
 ## Inputs used
 
 I use the market-data memo’s updated inputs rather than the specification’s earlier spot and interest-rate observations:
