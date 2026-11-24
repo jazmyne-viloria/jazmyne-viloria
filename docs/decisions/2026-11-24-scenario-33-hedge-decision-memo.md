@@ -1,54 +1,64 @@
-# Hedge Decision Memo — Scenario 33: Mining Shovels
+# FX Hedging Decision Memo
 
-**To:** Chief Financial Officer
-**From:** Jazmyne Viloria, Treasury Analyst
-**Date:** November 24, 2026
-**Re:** Hedging the EUR 14,500,000 receivable due in 182 days
+**To:** Chief Financial Officer  
+**From:** Jazmyne Viloria, Treasury Analyst  
+**Date:** November 24, 2026  
+**Subject:** Hedging Recommendation for EUR 14.5 Million Receivable — Scenario 33
 
-## A. Exposure summary
+## A. Exposure Summary
 
-We will receive EUR 14,500,000 in 182 days. At today's spot of 1.0968 USD per EUR (ECB reference rate, Nov. 18, 2026) the receivable is worth USD 15,903,600. Every one-cent move in EURUSD changes our proceeds by USD 145,000. A ±5% move in the euro puts proceeds anywhere between USD 15.11 million and USD 16.70 million if we leave the exposure unhedged.
+The company expects to receive EUR 14.5 million in 182 days from its mining-shovel transaction. Because the company reports in U.S. dollars, the receivable's value depends on the EUR/USD exchange rate at settlement. A weaker euro would reduce the USD proceeds, while a stronger euro would increase them.
 
-## B. Hedge outcomes
+The objective is to protect the receivable's USD value while considering the cost, liquidity requirements, and flexibility of each available hedge.
 
-| Strategy | USD proceeds | What it means for the decision |
-|---|---|---|
-| Unhedged | 15,108,420 to 16,698,780 (±5% range) | A USD 1.59 million swing and no protection. |
-| Forward at the bank's quote (1.1705) | 16,972,250, fixed | Beats the best unhedged outcome in the range by USD 273,470. |
-| Money market (borrow EUR, convert, invest USD) | 16,001,553, fixed | Equals a forward at the parity rate of 1.1036. Uses balance sheet and no counterparty quote. |
-| Put at spot strike, premium carried | Floor 15,615,758; USD 16,410,938 at +5% | Insurance with upside, but the floor sits USD 1.36 million below the quoted forward. |
-| Call (for comparison only) | −439,181 to +355,999 | Pays only if the euro rises. It adds risk to a receivable and is not a hedge. |
+The analysis uses the November 18, 2026 initial spot rate of 1.0968 USD/EUR, the assigned forward quote of 1.1705, and the Stage 4 benchmark interest rates. The assigned option premiums are retained from the scenario assumptions. These are modeled inputs, not confirmed current transaction quotes.
 
-The central finding is that the quoted forward beats every other strategy at every point in the ±5% range. That result comes from the quote, not from the market: it sits USD 970,697 above what the money-market route delivers (see D).
+## B. Hedge Outcomes
 
-## C. Sensitivity interpretation
+The forward produces the highest modeled receivable proceeds across the three selected scenarios. At 1.1705 USD/EUR, it locks in $16,972,250 regardless of the settlement spot rate. This provides the strongest cash-flow certainty in the model and exceeds the modeled money-market proceeds by $970,696.89.
 
-**If the euro weakens.** The forward and money market are unaffected. The put floors proceeds at USD 15.62 million, which is USD 287,842 below today's value; that is the premium we pay for the protection. Without a hedge, a 5% euro decline costs USD 795,180 against today's value.
+The money-market hedge produces approximately $16,001,553.11. It creates a fixed USD outcome by borrowing the present value of the EUR receivable, converting the borrowed euros at spot, and investing the resulting dollars until settlement. Although it provides certainty, it requires immediate borrowing and investment transactions. Actual borrowing and deposit rates could change the result.
 
-**If the euro strengthens.** The forward and money market give up all gains. The unhedged position and the put gain, but not enough to matter in this range: at +5% the put pays USD 16.41 million and the unhedged position USD 16.70 million, both below the forward's 16.97 million. The put overtakes the forward only if the euro rises 8.5% above spot, to 1.1904.
+The put option establishes a modeled minimum of $15,615,758.21 after carrying the premium to settlement. It protects against euro depreciation while preserving participation in euro appreciation. That flexibility comes at a cost: the carried premium is $287,841.79.
 
-**Cost.** The forward has no upfront cost. The put costs USD 281,300 up front (USD 287,842 carried to settlement, 1.8% of notional). The money market needs EUR 14.26 million of borrowing and is the least convenient route.
+The unhedged position provides full participation in exchange-rate movements but exposes the company to downside risk. At the 95% scenario, proceeds fall to $15,108,420. At the 105% scenario, proceeds increase to $16,698,780.
+
+The call option is a separate derivative position rather than a hedge of the EUR receivable. Its net payoff is negative $439,181.28 at the 95% and 100% scenarios and positive $355,998.72 at the 105% scenario. It does not establish a minimum USD value for the receivable and should not be treated as a substitute for a protective hedge.
+
+## C. Sensitivity Interpretation
+
+The sensitivity analysis illustrates the trade-off between certainty and participation in favorable exchange-rate movements.
+
+If the euro depreciates, the unhedged position loses value as the EUR converts into fewer dollars. The put limits this downside through its strike, although the premium reduces the minimum proceeds. The forward and money-market hedge each lock in a fixed USD outcome.
+
+If the euro appreciates, the unhedged position benefits fully, and the put preserves upside participation above its strike. The forward and money-market hedge do not benefit from further favorable movements because their USD outcomes are fixed.
+
+Under the selected 95%, 100%, and 105% scenarios, the assigned forward quote produces the highest modeled proceeds in every case. The forward's advantage is unusually large because the assigned 1.1705 quote is materially higher than the CIP-implied forward calculated using the updated market inputs. This result should therefore be treated cautiously until the bank confirms the quote.
 
 ## D. Recommendation
 
-**Hedge the full EUR 14,500,000 with a forward, but obtain a requote before we execute.**
+**Recommendation: Request a current, executable forward quote before committing to the hedge. If the bank confirms that 1.1705 USD/EUR is firm and available for the full EUR 14.5 million receivable and 182-day maturity, the forward is the strongest modeled choice.**
 
-**The quote and parity disagree.** The bank's 1.1705 compares with a CIP-implied forward of 1.10356, built from live spot (1.0968), the 1-year Treasury yield (4.60%) and the 12-month Euribor fixing (3.361%). The gap is 0.06694 USD per EUR, or USD 970,697 on the receivable (6.1%).
+The independent analysis calculates a CIP-implied forward rate of 1.10355539 USD/EUR. Compared with the assigned bank quote of 1.1705, the difference is 0.06694461 USD/EUR. Applied to the receivable, this represents a modeled difference of approximately $970,696.89.
 
-**What explains it.** The quote appears to be stale. It was set when spot was 1.1165; spot has since fallen 1.8% and the quote has not moved. Even then it sat above parity: with the Stage 3 placeholder inputs the implied forward was 1.1242 and the gap USD 671,463. The rate inputs do not explain it. Using 6-month rates instead moves the implied forward by about 0.001, and mixing a government yield with an interbank rate cannot account for 0.067.
+The money-market hedge produces approximately $16,001,553.11, matching the proceeds implied by the modeled CIP rate. This confirms the internal mathematical relationship between the money-market calculation and the CIP-implied forward under the selected inputs. It does not confirm that the assigned bank quote is executable or that the company can borrow and invest at the benchmark rates used.
 
-**Does it change the recommendation?** It changes what we do, not which instrument.
-- If the bank confirms 1.1705, we should execute at once. That locks in USD 970,697 more than a market-priced hedge, and it beats every other strategy.
-- If the requote comes back near parity (about 1.1036), the forward delivers about USD 16.00 million and equals the money market. The put then costs USD 385,795 of certain proceeds (floor 15.62 million) and beats the forward only if the euro rises more than 2.4% to 1.1234. I would still choose the forward unless the board holds a strong view that such a rally is likely.
+The difference requires investigation rather than an assumption that the company can capture the full modeled advantage. The Stage 4 analysis identifies the assigned quote as potentially stale and notes that it was established against an earlier spot rate. The USD Treasury yield and EUR Euribor inputs are also different benchmark instruments and tenors, not transaction-specific rates for this company.
 
-This recommendation assumes the firm's priority is budget certainty over upside.
+The company should request a firm bank requote for the full notional and exact maturity. If the bank confirms the assigned rate, the forward offers the strongest modeled proceeds and certainty. If the bank does not confirm it, Treasury should compare the new executable forward quote with an updated money-market calculation using actual borrowing and investment rates. The put remains an alternative if management values upside participation enough to accept its premium and lower minimum proceeds.
 
-## E. Executive justification
+## E. Executive Justification
 
-- **Cash-flow stability and budget certainty.** The forward fixes USD proceeds today; the money market does the same at a lower level.
-- **Liquidity.** The forward needs no upfront cash. The put needs USD 281,300 now, and the money market ties up EUR 14.26 million of borrowing capacity.
-- **Optionality.** We give up the chance to benefit from a stronger euro. In this range the cost is small: the put does not beat the forward until the euro is 8.5% above spot at the quoted rate.
-- **Premium cost.** The put premium is 1.8% of notional, and carried to settlement it is USD 287,842. That is the price of keeping upside.
-- **Next step.** Ask the bank to confirm or requote the forward today; the recommendation and its USD impact depend on that answer.
+The forward is the preferred modeled strategy because it establishes a known USD amount for a large receivable and removes uncertainty from the settlement exchange rate. This supports cash-flow planning, budget certainty, and financial forecasting.
 
-*Figures come from `capabilities/fx-hedging/model.xlsx` and were verified by hand and compared against an independent LLM run; see `analysis/2026-11-24-scenario-33-validation-analysis.md`.*
+The money-market hedge provides a similar fixed outcome but requires immediate access to borrowing capacity and the ability to invest the converted funds. That may affect liquidity and credit availability. Its modeled proceeds should not be relied on until the company confirms the actual rates and financing terms available to it.
+
+The put provides more flexibility by protecting against depreciation while retaining upside participation. However, the premium reduces the minimum USD proceeds, making it less attractive when the primary objective is to maximize a certain settlement amount.
+
+The recommendation is therefore conditional. The assigned forward quote must be verified as current, firm, and executable before the company enters the transaction. Treasury should confirm the quote, maturity, notional, transaction costs, collateral requirements, counterparty exposure, and settlement terms. Until those items are confirmed, the modeled forward advantage should not be treated as a guaranteed commercial benefit.
+
+**Decision requested:** Authorize Treasury to obtain and verify an executable forward quote for the full EUR 14.5 million receivable and return with the confirmed terms before execution.
+
+---
+
+**Basis of analysis:** Stage 2 technical specification, Stage 4 market-data memo, and Stage 5 independent LLM analysis. The modeled outcomes are subject to workbook reconciliation and confirmation of transaction-specific market terms.
