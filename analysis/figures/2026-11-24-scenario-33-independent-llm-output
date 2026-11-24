@@ -1,0 +1,767 @@
+
+# Stage 5 — Independent FX Hedging Validation & Decision Memo
+
+**Scenario:** 33 — Mining Shovels  
+**Prepared by:** Jazmyne Viloria, Treasury Analyst  
+**Audience:** CFO / Director of Treasury  
+**Exposure:** EUR 14,500,000 receivable  
+**Settlement Horizon:** 182 days  
+**Reporting Currency:** USD  
+**Exchange Rate Convention:** USD per EUR  
+
+---
+
+## 1. Source Inputs and Assumptions
+
+### 1.1 Validated Source Inputs
+
+This analysis uses the updated market inputs from the Stage 4 market-data memo while retaining the calculation methodology established in the Stage 2 technical specification.
+
+| Input | Value | Source / Treatment |
+|---|---:|---|
+| EUR Receivable (`FC_AMT`) | 14,500,000 | Scenario 33 |
+| Initial Spot (`S0_in`) | 1.0968 | ECB reference rate, Nov. 18, 2026 |
+| Bank Forward (`F0_in`) | 1.1705 | Assigned scenario quote |
+| USD Interest Rate (`R_USD`) | 4.60% | U.S. Treasury 1-year par yield |
+| EUR Interest Rate (`R_FC`) | 3.361% | 12-month Euribor |
+| Put Strike (`K_PUT`) | 1.0968 | Formula-linked to initial spot |
+| Call Strike (`K_CALL`) | 1.0968 | Formula-linked to initial spot |
+| Put Premium (`PREM_PUT`) | 0.0194/EUR | Assigned indicative premium |
+| Call Premium (`PREM_CALL`) | 0.0296/EUR | Assigned indicative premium |
+| Settlement Period (`T_DAYS`) | 182 days | Scenario 33 |
+| Day-Count Convention | ACT/360 | Stage 2 specification |
+
+**Market-data update:** Stage 2 originally used a spot rate of 1.1165, USD interest rate of 3.88%, and EUR interest rate of 2.50%. These values were superseded by the Stage 4 market observations.
+
+The assigned forward quote and option premiums remain unchanged.
+
+### 1.2 Accumulation Factors
+
+Both interest rates are applied over 182 days using ACT/360.
+
+**USD accumulation factor:**
+
+\[
+DF_{USD}=1+R_{USD}\times\frac{T}{360}
+\]
+
+\[
+=1+0.046\times\frac{182}{360}
+\]
+
+\[
+\boxed{DF_{USD}=1.02325556}
+\]
+
+**EUR accumulation factor:**
+
+\[
+DF_{EUR}=1+R_{FC}\times\frac{T}{360}
+\]
+
+\[
+=1+0.03361\times\frac{182}{360}
+\]
+
+\[
+\boxed{DF_{EUR}=1.01699172}
+\]
+
+### 1.3 Option Premium Treatment
+
+Both option premiums are paid upfront and carried to settlement using the USD accumulation factor.
+
+**Put premium:**
+
+\[
+Premium_{PUT}=14,500,000\times0.0194
+\]
+
+\[
+=\$281,300.00
+\]
+
+Carried to settlement:
+
+\[
+PREM_{PUT,FV}=281,300\times1.02325556
+\]
+
+\[
+\boxed{\$287,841.79}
+\]
+
+**Call premium:**
+
+\[
+Premium_{CALL}=14,500,000\times0.0296
+\]
+
+\[
+=\$429,200.00
+\]
+
+Carried to settlement:
+
+\[
+PREM_{CALL,FV}=429,200\times1.02325556
+\]
+
+\[
+\boxed{\$439,181.28}
+\]
+
+The carried premiums are deducted from their respective option outcomes to compare all strategies at the same settlement date.
+
+---
+
+## 2. Hedge Calculations
+
+### 2.1 Unhedged Exposure
+
+The company converts its EUR receivable into USD at the future settlement spot rate.
+
+\[
+USD_{UNHEDGED}=FC_{AMT}\times S_T
+\]
+
+The company remains exposed to exchange-rate fluctuations. A weaker euro reduces USD proceeds, while a stronger euro increases them.
+
+### 2.2 Forward Hedge
+
+The company locks in the assigned bank forward rate of 1.1705 USD/EUR.
+
+\[
+USD_{FWD}=FC_{AMT}\times F_0
+\]
+
+\[
+=14,500,000\times1.1705
+\]
+
+\[
+\boxed{USD_{FWD}=\$16,972,250.00}
+\]
+
+The forward guarantees $16,972,250 regardless of the future spot rate.
+
+This provides complete exchange-rate certainty but eliminates the ability to benefit from further euro appreciation.
+
+### 2.3 Money-Market Hedge
+
+The money-market hedge replicates a forward position through three steps: borrowing EUR, converting EUR into USD, and investing USD until settlement.
+
+**Step 1 — Borrow EUR Today**
+
+The company borrows the present value of the EUR receivable.
+
+\[
+MM_{BORROW,EUR}=\frac{FC_{AMT}}{DF_{EUR}}
+\]
+
+\[
+=\frac{14,500,000}{1.0169917222}
+\]
+
+\[
+\boxed{MM_{BORROW,EUR}=€14,257,736.50}
+\]
+
+The EUR borrowing accumulates to:
+
+\[
+14,257,736.50\times1.0169917222
+\]
+
+\[
+=\boxed{€14,500,000.00}
+\]
+
+The future EUR receivable fully repays the borrowing and accrued interest.
+
+**Step 2 — Convert Borrowed EUR into USD**
+
+The company converts the borrowed euros at the initial spot rate.
+
+\[
+MM_{USD,NOW}=MM_{BORROW,EUR}\times S_0
+\]
+
+\[
+=14,257,736.5018\times1.0968
+\]
+
+\[
+\boxed{MM_{USD,NOW}=\$15,637,885.40}
+\]
+
+**Step 3 — Invest USD Until Settlement**
+
+The company invests the USD proceeds for 182 days at the USD interest rate.
+
+\[
+USD_{MM}=MM_{USD,NOW}\times DF_{USD}
+\]
+
+\[
+=15,637,885.3952\times1.0232555556
+\]
+
+\[
+\boxed{USD_{MM}=\$16,001,553.11}
+\]
+
+The money-market hedge locks in approximately $16.002 million, assuming the company can borrow and invest at the modeled rates.
+
+Unlike the forward, this strategy requires immediate financing and investment transactions, which may affect liquidity and available credit facilities.
+
+### 2.4 Put Option Hedge
+
+The company purchases a EUR put option with a strike equal to the initial spot rate.
+
+\[
+K_{PUT}=1.0968
+\]
+
+The put gives the company the right to exchange its euros at the strike rate if the euro depreciates below that level.
+
+**Put proceeds:**
+
+\[
+USD_{PUT}=FC_{AMT}\times\max(S_T,K_{PUT})-PREM_{PUT,FV}
+\]
+
+\[
+=14,500,000\times\max(S_T,1.0968)-287,841.79
+\]
+
+**Minimum put proceeds:**
+
+\[
+USD_{FLOOR,PUT}=FC_{AMT}\times K_{PUT}-PREM_{PUT,FV}
+\]
+
+\[
+=14,500,000\times1.0968-287,841.79
+\]
+
+\[
+=15,903,600-287,841.79
+\]
+
+\[
+\boxed{USD_{FLOOR,PUT}=\$15,615,758.21}
+\]
+
+The put protects the company's downside while retaining participation in favorable exchange-rate movements.
+
+However, the $287,841.79 carried premium reduces the minimum USD proceeds.
+
+### 2.5 Call Option Hedge
+
+The call option is reported separately because it does not protect the company's EUR receivable.
+
+The call strike is:
+
+\[
+K_{CALL}=1.0968
+\]
+
+**Gross call payoff:**
+
+\[
+CALL_{PAYOFF}=FC_{AMT}\times\max(S_T-K_{CALL},0)
+\]
+
+**Net call payoff:**
+
+\[
+USD_{CALL,NET}=CALL_{PAYOFF}-PREM_{CALL,FV}
+\]
+
+Where:
+
+\[
+PREM_{CALL,FV}=\$439,181.28
+\]
+
+The call generates a positive payoff when the euro appreciates above the strike. However, the company pays the premium regardless of whether the option generates a payoff.
+
+The call is a separate derivative position, not total receivable proceeds.
+
+---
+
+## 3. Comparison of Outcomes at Selected Spot-Rate Scenarios
+
+### 3.1 Future Spot-Rate Scenarios
+
+The analysis uses 95%, 100%, and 105% of the initial spot rate.
+
+Initial spot:
+
+\[
+S_0=1.0968
+\]
+
+| Scenario | Calculation | Future Spot Rate |
+|---|---|---:|
+| 95% | 1.0968 × 0.95 | 1.04196 |
+| 100% | 1.0968 × 1.00 | 1.09680 |
+| 105% | 1.0968 × 1.05 | 1.15164 |
+
+### 3.2 USD Proceeds Comparison
+
+All amounts are USD, rounded to the nearest cent.
+
+| Strategy | 95%: 1.04196 | 100%: 1.09680 | 105%: 1.15164 |
+|---|---:|---:|---:|
+| Unhedged | $15,108,420.00 | $15,903,600.00 | $16,698,780.00 |
+| Forward | **$16,972,250.00** | **$16,972,250.00** | **$16,972,250.00** |
+| Money Market | $16,001,553.11 | $16,001,553.11 | $16,001,553.11 |
+| Put Option | $15,615,758.21 | $15,615,758.21 | $16,410,938.21 |
+
+**Highest proceeds: Forward hedge in all three scenarios.**
+
+### 3.3 Scenario A — 95% of Initial Spot
+
+Future spot:
+
+\[
+S_T=1.04196
+\]
+
+This represents euro depreciation against the U.S. dollar.
+
+| Strategy | Calculation | USD Proceeds |
+|---|---|---:|
+| Unhedged | 14,500,000 × 1.04196 | $15,108,420.00 |
+| Forward | 14,500,000 × 1.1705 | $16,972,250.00 |
+| Money Market | Step 3 investment proceeds | $16,001,553.11 |
+| Put | 14,500,000 × 1.0968 − 287,841.79 | $15,615,758.21 |
+
+**Call option:**
+
+\[
+CALL_{PAYOFF}=14,500,000\times\max(1.04196-1.0968,0)
+\]
+
+\[
+=\$0.00
+\]
+
+\[
+CALL_{NET}=0-439,181.28
+\]
+
+\[
+\boxed{-\$439,181.28}
+\]
+
+The call expires without a payoff, and the company loses its carried premium.
+
+**Highest proceeds: Forward — $16,972,250.00.**
+
+The forward protects the company against the depreciation that reduces unhedged proceeds to approximately $15.108 million.
+
+### 3.4 Scenario B — 100% of Initial Spot
+
+Future spot:
+
+\[
+S_T=1.09680
+\]
+
+This represents an unchanged exchange rate.
+
+| Strategy | Calculation | USD Proceeds |
+|---|---|---:|
+| Unhedged | 14,500,000 × 1.0968 | $15,903,600.00 |
+| Forward | 14,500,000 × 1.1705 | $16,972,250.00 |
+| Money Market | Step 3 investment proceeds | $16,001,553.11 |
+| Put | 14,500,000 × 1.0968 − 287,841.79 | $15,615,758.21 |
+
+**Call option:**
+
+\[
+CALL_{PAYOFF}=14,500,000\times\max(1.0968-1.0968,0)
+\]
+
+\[
+=\$0.00
+\]
+
+\[
+CALL_{NET}=0-439,181.28
+\]
+
+\[
+\boxed{-\$439,181.28}
+\]
+
+At the strike price, the call generates no intrinsic payoff and the company loses the carried premium.
+
+**Highest proceeds: Forward — $16,972,250.00.**
+
+### 3.5 Scenario C — 105% of Initial Spot
+
+Future spot:
+
+\[
+S_T=1.15164
+\]
+
+This represents euro appreciation against the U.S. dollar.
+
+| Strategy | Calculation | USD Proceeds |
+|---|---|---:|
+| Unhedged | 14,500,000 × 1.15164 | $16,698,780.00 |
+| Forward | 14,500,000 × 1.1705 | $16,972,250.00 |
+| Money Market | Step 3 investment proceeds | $16,001,553.11 |
+| Put | 14,500,000 × 1.15164 − 287,841.79 | $16,410,938.21 |
+
+**Call option:**
+
+\[
+CALL_{PAYOFF}=14,500,000\times(1.15164-1.0968)
+\]
+
+\[
+=14,500,000\times0.05484
+\]
+
+\[
+=\$795,180.00
+\]
+
+After deducting the carried premium:
+
+\[
+CALL_{NET}=795,180-439,181.28
+\]
+
+\[
+\boxed{\$355,998.72}
+\]
+
+The call produces a positive net payoff because the euro appreciates sufficiently to exceed the option's carried premium.
+
+**Highest proceeds: Forward — $16,972,250.00.**
+
+### 3.6 Call Option Summary
+
+| Scenario | Gross Call Payoff | Carried Premium | Net Call Payoff |
+|---|---:|---:|---:|
+| 95% | $0.00 | $439,181.28 | -$439,181.28 |
+| 100% | $0.00 | $439,181.28 | -$439,181.28 |
+| 105% | $795,180.00 | $439,181.28 | $355,998.72 |
+
+**Call break-even rate:**
+
+\[
+S_T=K_{CALL}+\frac{PREM_{CALL,FV}}{FC_{AMT}}
+\]
+
+\[
+=1.0968+\frac{439,181.2844}{14,500,000}
+\]
+
+\[
+\boxed{S_T=1.12708767}
+\]
+
+The call generates a positive net payoff when the future spot rate exceeds approximately 1.12709 USD/EUR, or 102.76% of initial spot.
+
+### 3.7 Overall Strategy Comparison
+
+| Strategy | Cash-Flow Certainty | Downside Protection | Upside Participation | Main Trade-Off |
+|---|---|---|---|---|
+| Unhedged | None | None | Full | Exposed to EUR depreciation |
+| Forward | Complete | Complete | None | Gives up favorable spot movements |
+| Money Market | Complete | Complete | None | Requires borrowing and investing |
+| Put | Minimum proceeds of $15.616M | Yes | Full above strike | $287,841.79 carried premium |
+| Call | No certainty for receivable | No | Separate call payoff | $439,181.28 carried premium |
+
+**Key findings:**
+
+1. The forward produces the highest modeled receivable proceeds across all three selected scenarios.
+2. The money-market hedge guarantees approximately $16.002 million, which is $970,696.89 below the assigned forward proceeds.
+3. The put provides downside protection and upside participation, but its premium reduces the guaranteed minimum proceeds.
+4. The unhedged strategy provides full participation in exchange-rate movements but exposes the company to depreciation.
+5. The call does not protect the receivable and should remain a separate derivative payoff comparison.
+
+The Stage 2 specification originally anticipated that the forward would win from 95% through 104%, while the unhedged strategy would win at 105%. However, after the Stage 4 input updates, the forward wins all eleven sensitivity scenarios because the assigned forward rate of 1.1705 exceeds the highest modeled settlement spot of 1.15164.
+
+---
+
+## 4. CIP-Implied Forward Versus Bank Quote
+
+### 4.1 Calculate the CIP-Implied Forward
+
+Covered interest-rate parity estimates the forward exchange rate implied by the spot rate and the interest-rate differential.
+
+\[
+F_{IMPLIED}=S_0\times\frac{DF_{USD}}{DF_{EUR}}
+\]
+
+Using the Stage 4 market inputs:
+
+\[
+=1.0968\times\frac{1.0232555556}{1.0169917222}
+\]
+
+\[
+\boxed{F_{IMPLIED}=1.10355539}
+\]
+
+### 4.2 Compare the Bank Quote and Implied Forward
+
+| Measure | Value |
+|---|---:|
+| Bank Forward Quote | 1.17050000 |
+| CIP-Implied Forward | 1.10355539 |
+| Exchange Rate Gap | 0.06694461 USD/EUR |
+| Bank Quote Premium Over Implied | Approximately 6.1% |
+| Bank Forward Proceeds | $16,972,250.00 |
+| CIP-Implied Proceeds | $16,001,553.11 |
+| USD Difference | $970,696.89 |
+
+**Exchange-rate difference:**
+
+\[
+Gap=F_0-F_{IMPLIED}
+\]
+
+\[
+=1.1705-1.10355539
+\]
+
+\[
+\boxed{Gap=0.06694461}
+\]
+
+**USD difference on the receivable:**
+
+\[
+USD_{GAP}=FC_{AMT}\times Gap
+\]
+
+\[
+=14,500,000\times0.0669446133
+\]
+
+\[
+\boxed{USD_{GAP}=\$970,696.89}
+\]
+
+The assigned bank quote is approximately 6.1% above the CIP-implied forward rate.
+
+### 4.3 Money-Market and CIP Reconciliation
+
+The money-market hedge should equal the proceeds calculated using the CIP-implied forward rate when the same inputs and conventions are applied.
+
+**CIP-implied proceeds:**
+
+\[
+USD_{CIP}=14,500,000\times1.1035553867
+\]
+
+\[
+=\$16,001,553.11
+\]
+
+**Money-market proceeds:**
+
+\[
+USD_{MM}=\$16,001,553.11
+\]
+
+**Parity difference:**
+
+\[
+PARITY\_DIFF=USD_{MM}-USD_{CIP}
+\]
+
+\[
+=16,001,553.11-16,001,553.11
+\]
+
+\[
+\boxed{PARITY\_DIFF=\$0.00}
+\]
+
+**Validation result:** The money-market hedge and CIP-implied forward agree to the cent, satisfying the Stage 2 tolerance of USD 0.01.
+
+However, this does not validate the bank's separate forward quote. The parity check confirms the mathematical relationship between the money-market hedge and the implied forward using the same inputs.
+
+### 4.4 Why the Bank Quote Requires Investigation
+
+The bank's 1.1705 quote is materially above the CIP-implied rate of 1.10355539.
+
+The Stage 4 memo explains that the assigned quote was established against the earlier November 6 spot rate of 1.1165, while the updated November 18 spot rate is 1.0968.
+
+The Stage 4 memo flags the quote as potentially stale and recommends requesting a requote. The assigned quote remains unchanged in the workbook as required.
+
+Additional limitations include:
+
+- The USD reference rate is a 1-year U.S. Treasury par yield.
+- The EUR reference rate is 12-month Euribor.
+- The rates are not a like-for-like credit pair.
+- The scenario horizon is 182 days, but the selected rates are annualized 1-year benchmarks.
+- The Treasury yield is not quoted on the same ACT/360 basis as the EUR benchmark.
+
+The Stage 4 memo reports that using six-month reference rates instead produces an implied forward of 1.10446 and a gap of approximately $957,536. Therefore, the conclusion does not depend on the selected tenor.
+
+---
+
+## 5. Recommendation and Rationale
+
+### 5.1 Recommended Strategy: Forward Hedge, Subject to Confirmation of an Executable Bank Quote
+
+Based on the supplied inputs and independently calculated outcomes, the forward hedge is the strongest financial choice for protecting the company's EUR 14.5 million receivable.
+
+However, execution should be conditional on the bank confirming that the 1.1705 quote is current, firm, and available for the full EUR 14.5 million transaction and 182-day maturity.
+
+### 5.2 Cash-Flow Certainty
+
+The forward locks in $16,972,250, eliminating uncertainty from future EUR/USD movements.
+
+Compared with the other strategies:
+
+| Comparison | Additional Forward Proceeds |
+|---|---:|
+| Versus Money Market | $970,696.89 |
+| Versus Put at 95% Spot | $1,356,491.79 |
+| Versus Put at 100% Spot | $1,356,491.79 |
+| Versus Put at 105% Spot | $561,311.79 |
+| Versus Unhedged at 95% Spot | $1,863,830.00 |
+| Versus Unhedged at 100% Spot | $1,068,650.00 |
+| Versus Unhedged at 105% Spot | $273,470.00 |
+
+The forward produces higher proceeds in every selected scenario, including the appreciation scenario.
+
+This is an unusually favorable outcome driven by the assigned bank quote rather than a typical comparison of hedging strategies.
+
+### 5.3 Money-Market Hedge as an Alternative
+
+If the bank cannot confirm the assigned forward quote, the money-market hedge is the modeled certainty alternative.
+
+It produces $16,001,553.11, matching the CIP-implied forward value.
+
+However, the company must borrow approximately €14.258 million today and convert it into approximately $15.638 million for investment.
+
+This creates immediate financing requirements and may affect working capital and available credit facilities.
+
+The Stage 4 interest rates are reference benchmarks rather than actual transaction-specific borrowing and deposit quotes. The company should therefore confirm its actual financing terms before relying on the modeled proceeds.
+
+### 5.4 Put Option as a Flexibility Alternative
+
+The put option is appropriate if management prioritizes downside protection while retaining the ability to benefit from euro appreciation.
+
+Its minimum modeled proceeds are $15,615,758.21.
+
+The company effectively pays $287,841.79 in carried premium for the flexibility to participate in favorable exchange-rate movements.
+
+At the 105% scenario, the put generates $16,410,938.21, exceeding the money-market proceeds but remaining below the forward.
+
+The put is therefore more appropriate when management values upside participation enough to accept a lower minimum USD outcome.
+
+### 5.5 Business Decision
+
+The recommended decision is:
+
+1. Request a new executable forward quote from the bank because the assigned 1.1705 rate is materially above the CIP-implied rate.
+2. If the bank confirms 1.1705 as a firm, executable quote, proceed with the forward hedge.
+3. If the assigned quote is unavailable, consider the money-market hedge as the modeled certainty alternative, subject to confirming actual borrowing and investment rates.
+4. Consider the put only if management prioritizes upside participation over maximizing guaranteed proceeds.
+5. Do not use the call as the primary receivable hedge because it does not establish a minimum USD value for the receivable.
+
+The central business objective should be to protect the value of the company's contracted receivable without sacrificing more USD proceeds than necessary.
+
+Under the supplied scenario inputs, the forward achieves that objective most effectively.
+
+---
+
+## 6. Missing Information, Ambiguities, and Assumptions
+
+### 6.1 Missing Transaction-Specific Market Information
+
+| Missing Information | Why It Matters | Treatment |
+|---|---|---|
+| Executable bank forward quote | The assigned 1.1705 rate may be stale or unavailable. | Retained as instructed; execution requires confirmation. |
+| Actual 182-day USD borrowing rate | Treasury yield is a proxy, not the company's borrowing rate. | Used Stage 4 rate of 4.60%. |
+| Actual 182-day EUR borrowing rate | Euribor is a benchmark, not a transaction-specific borrowing rate. | Used Stage 4 rate of 3.361%. |
+| Current option market quotes | Assigned premiums were established when spot was 1.1165. | Retained original premiums. |
+| Forward transaction costs | Bank spreads and fees could reduce realized proceeds. | Excluded as required by Stage 2. |
+| Counterparty credit and settlement risk | A counterparty may not fulfill its obligations. | Assumed contracts are fulfilled as agreed. |
+
+### 6.2 Model Assumptions
+
+**1. Stage 4 market data supersedes Stage 2 market inputs.**
+
+The Stage 4 spot and interest rates are used because the purpose of this validation is to assess the updated market-data population. Stage 2 methodology and calculation conventions remain in effect.
+
+**2. The assigned forward quote remains unchanged.**
+
+The 1.1705 quote is retained even though it differs substantially from the CIP-implied forward rate. No replacement quote was provided.
+
+**3. Option premiums remain unchanged.**
+
+The put and call premiums are indicative scenario values, not current market quotes. The analysis does not assume they would be available at the updated spot rate.
+
+**4. Option premiums are carried to settlement.**
+
+Both premiums are paid upfront and carried forward using the USD accumulation factor.
+
+**5. Settlement scenarios are deterministic.**
+
+The analysis evaluates 95%, 100%, and 105% of initial spot without assigning probabilities to those outcomes.
+
+**6. The call remains a separate derivative payoff.**
+
+The call is not included in total receivable proceeds or the ranking of receivable hedging strategies.
+
+### 6.3 Items Requiring Further Validation
+
+Before executing a hedge, the company should obtain:
+
+- A firm bank forward quote for the full EUR 14.5 million receivable and 182-day maturity.
+- Confirmed transaction-specific borrowing and investment rates for the money-market alternative.
+- Updated put and call premiums if management wants to evaluate current option pricing.
+- Confirmation of transaction fees, collateral requirements, counterparty exposure, and settlement terms.
+
+The two source documents do not provide sufficient information to calculate these items. Their financial impact is therefore excluded.
+
+---
+
+## Final Validation Conclusion
+
+The independent calculations confirm that the five modeled outcomes are mathematically consistent with the Stage 4 inputs and Stage 2 methodology.
+
+| Validated Result | Amount |
+|---|---:|
+| Forward Proceeds | **$16,972,250.00** |
+| Money-Market Proceeds | $16,001,553.11 |
+| Put Minimum Proceeds | $15,615,758.21 |
+| CIP-Implied Forward | 1.10355539 |
+| Bank Forward Quote | 1.17050000 |
+| Bank Quote vs. CIP USD Difference | $970,696.89 |
+| Parity Difference | $0.00 |
+
+The forward hedge is the recommended strategy based on the supplied inputs because it provides the highest modeled proceeds and complete cash-flow certainty across all eleven sensitivity scenarios.
+
+However, the $970,696.89 difference between the assigned bank quote and the CIP-implied forward is the most important issue identified during validation.
+
+The company should confirm that the quote is executable before relying on the modeled benefit.
+
+**Audit distinction:** The calculations are independently validated against the two supplied documents. The underlying market-data observations and transaction-specific execution terms have not been independently verified against primary market sources or a bank confirmation.
+
+The analysis therefore supports a conditional forward-hedge recommendation, not an unconditional assertion that the company can transact at 1.1705.
+
+---
+
+**Source Documents:**
+
+1. Stage 2 — Scenario 33 Technical Specification, Version 0.4.
+2. Stage 4 — Market-Data Memo, November 18, 2026.
+
+**End of Stage 5 Independent Validation Memo**
