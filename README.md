@@ -18,7 +18,7 @@ An FX hedging analysis evaluating strategies for a EUR 14.5 million receivable d
 |---|---|
 | Stage 1 | Project setup and repository structure |
 | Stage 2 | [Technical specification](capabilities/fx-hedging/spec.md) |
-| Stage 3 | [Excel hedging model](capabilities/fx-hedging/model.xlsx) and [build audit](analysis/2026-11-13-scenario-33-build-audit-analysis.md) |
+| Stage 3 | [Excel hedging model](capabilities/fx-hedging/model.xlsx) and [build audit](analysis/2026-11-24-scenario-33-validation-analysis.md) |
 | Stage 4 | [Market-data memo](ADD-ACTUAL-STAGE-4-MEMO-PATH-HERE) |
 | Stage 5 | [Independent LLM output](analysis/2026-11-24-scenario-33-independent-llm-output.md), [validation analysis](analysis/2026-11-24-scenario-33-validation-analysis.md), and [CFO decision memo](docs/decisions/2026-11-24-scenario-33-hedge-decision-memo.md) |
 
