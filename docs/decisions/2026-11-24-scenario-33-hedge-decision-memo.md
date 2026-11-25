@@ -11,7 +11,7 @@ The company expects to receive EUR 14.5 million in 182 days from its mining-shov
 
 The objective is to protect the receivable's USD value while considering the cost, liquidity requirements, and flexibility of each available hedge.
 
-The analysis uses the November 18, 2026 initial spot rate of 1.0968 USD/EUR, the assigned forward quote of 1.1705, and the Stage 4 benchmark interest rates. The assigned option premiums are retained from the scenario assumptions. These are modeled inputs, not confirmed current transaction quotes.
+The analysis uses the November 18, 2026 initial spot rate of 1.0968 USD/EUR, the assigned forward rate of 1.1705, and the Stage 4 benchmark interest rates. The assigned option premiums are retained from the scenario assumptions. These are modeled inputs, not confirmed current transaction quotes.
 
 ## B. Hedge Outcomes
 
@@ -33,19 +33,19 @@ If the euro depreciates, the unhedged position loses value as the EUR converts i
 
 If the euro appreciates, the unhedged position benefits fully, and the put preserves upside participation above its strike. The forward and money-market hedge do not benefit from further favorable movements because their USD outcomes are fixed.
 
-Under the selected 95%, 100%, and 105% scenarios, the assigned forward quote produces the highest modeled proceeds in every case. The forward's advantage is unusually large because the assigned 1.1705 quote is materially higher than the CIP-implied forward calculated using the updated market inputs. This result should therefore be treated cautiously until the bank confirms the quote.
+Under the selected 95%, 100%, and 105% scenarios, the assigned forward rate produces the highest modeled proceeds in every case. The forward's advantage is unusually large because the assigned 1.1705 rate is materially higher than the CIP-implied forward calculated using the updated market inputs. This result should therefore be treated cautiously until the bank confirms the rate.
 
 ## D. Recommendation
 
 **Recommendation: Request a current, executable forward quote before committing to the hedge. If the bank confirms that 1.1705 USD/EUR is firm and available for the full EUR 14.5 million receivable and 182-day maturity, the forward is the strongest modeled choice.**
 
-The independent analysis calculates a CIP-implied forward rate of 1.10355539 USD/EUR. Compared with the assigned bank quote of 1.1705, the difference is 0.06694461 USD/EUR. Applied to the receivable, this represents a modeled difference of approximately $970,696.89.
+The independent analysis calculates a CIP-implied forward rate of 1.10355539 USD/EUR. Compared with the assigned forward rate of 1.1705, the difference is 0.06694461 USD/EUR. Applied to the receivable, this represents a modeled difference of approximately $970,696.89.
 
-The money-market hedge produces approximately $16,001,553.11, matching the proceeds implied by the modeled CIP rate. This confirms the internal mathematical relationship between the money-market calculation and the CIP-implied forward under the selected inputs. It does not confirm that the assigned bank quote is executable or that the company can borrow and invest at the benchmark rates used.
+The money-market hedge produces approximately $16,001,553.11, matching the proceeds implied by the modeled CIP rate. This confirms the internal mathematical relationship between the money-market calculation and the CIP-implied forward under the selected inputs. It does not confirm that the assigned forward rate is executable or that the company can borrow and invest at the benchmark rates used.
 
-The difference requires investigation rather than an assumption that the company can capture the full modeled advantage. The Stage 4 analysis identifies the assigned quote as potentially stale and notes that it was established against an earlier spot rate. The USD Treasury yield and EUR Euribor inputs are also different benchmark instruments and tenors, not transaction-specific rates for this company.
+The difference requires investigation rather than an assumption that the company can capture the full modeled advantage. The Stage 4 analysis identifies the assigned rate as potentially stale and notes that it was established against an earlier spot rate. The USD Treasury yield and EUR Euribor inputs are also different benchmark instruments and tenors, not transaction-specific rates for this company.
 
-The company should request a firm bank requote for the full notional and exact maturity. If the bank confirms the assigned rate, the forward offers the strongest modeled proceeds and certainty. If the bank does not confirm it, Treasury should compare the new executable forward quote with an updated money-market calculation using actual borrowing and investment rates. The put remains an alternative if management values upside participation enough to accept its premium and lower minimum proceeds.
+The company should request a firm bank requote for the full notional and exact maturity. If the bank confirms the assigned rate, the forward offers the strongest modeled proceeds and certainty. If the bank does not confirm it, Treasury should compare the new executable forward rate with an updated money-market calculation using actual borrowing and investment rates. The put remains an alternative if management values upside participation enough to accept its premium and lower minimum proceeds.
 
 ## E. Executive Justification
 
@@ -55,10 +55,10 @@ The money-market hedge provides a similar fixed outcome but requires immediate a
 
 The put provides more flexibility by protecting against depreciation while retaining upside participation. However, the premium reduces the minimum USD proceeds, making it less attractive when the primary objective is to maximize a certain settlement amount.
 
-The recommendation is therefore conditional. The assigned forward quote must be verified as current, firm, and executable before the company enters the transaction. Treasury should confirm the quote, maturity, notional, transaction costs, collateral requirements, counterparty exposure, and settlement terms. Until those items are confirmed, the modeled forward advantage should not be treated as a guaranteed commercial benefit.
+The recommendation is therefore conditional. The assigned forward rate must be verified as current, firm, and executable before the company enters the transaction. Treasury should confirm the rate, maturity, notional, transaction costs, collateral requirements, counterparty exposure, and settlement terms. Until those items are confirmed, the modeled forward advantage should not be treated as a guaranteed commercial benefit.
 
 **Decision requested:** Authorize Treasury to obtain and verify an executable forward quote for the full EUR 14.5 million receivable and return with the confirmed terms before execution.
 
 ---
 
-**Basis of analysis:** Stage 2 technical specification, Stage 4 market-data memo, and Stage 5 independent LLM analysis. The modeled outcomes are subject to workbook reconciliation and confirmation of transaction-specific market terms.
+**Basis of analysis:** Stage 2 technical specification, Stage 4 market-data memo, Stage 5 independent LLM analysis, and the recalculated Stage 4 workbook. The modeled calculations have been reconciled to the workbook; completion of the remaining Stage 3 audit corrections and confirmation of transaction-specific market terms remain outstanding.
