@@ -1,209 +1,502 @@
-# Stage 5 — Independent Validation Analysis
+# Scenario 33 — Independent Validation Analysis
 
-**Scenario:** 33 — Mining Shovels  
+**Project:** FX Hedging Analysis — Mining Shovels  
+**Stage:** 5 — Independent Validation and CFO Decision  
 **Prepared by:** Jazmyne Viloria  
 **Date:** November 24, 2026  
 **Exposure:** EUR 14,500,000 receivable  
-**Settlement:** 182 days  
-**Reporting currency:** USD  
+**Settlement:** 182 days (ACT/360)
 
-## 1. Purpose and Validation Method
+---
 
-This analysis evaluates whether the Stage 2 technical specification and Stage 4 market-data memo provide sufficient information for an independent LLM to reproduce the FX hedge analysis.
+## 1. Purpose and Validation Scope
 
-The independent LLM received only the Stage 2 specification and Stage 4 market-data memo in a fresh conversation. It was not given the workbook or coached during its analysis. Its complete response is preserved in the [independent LLM output](2026-11-24-scenario-33-independent-llm-output.md).
+This analysis compares the independent LLM's calculations against the Stage 3 Excel hedging workbook using the updated market inputs documented in Stage 4.
 
-The independent results are compared against the Excel workbook. Differences are classified as an LLM error, workbook error, or specification ambiguity. The calculations below are also independently recomputed by hand.
+The independent LLM received exactly two source documents:
 
-## 2. Independent LLM Results
+1. `capabilities/fx-hedging/spec.md` — Stage 2 technical specification, Version 0.4.
+2. `data/2026-11-18-scenario-33-market-data-memo.md` — Stage 4 market-data memo.
 
-The independent LLM used the following inputs:
+The independent LLM did not receive the Excel workbook and was instructed not to use outside market data, assume missing inputs, or revise its calculations based on feedback.
 
-| Input | Value |
-|---|---:|
-| EUR receivable | €14,500,000 |
-| Initial spot rate | 1.0968 USD/EUR |
-| Assigned bank forward quote | 1.1705 USD/EUR |
-| USD interest rate | 4.60% |
-| EUR interest rate | 3.361% |
-| Put strike | 1.0968 USD/EUR |
-| Call strike | 1.0968 USD/EUR |
-| Put premium | 0.0194 USD/EUR |
-| Call premium | 0.0296 USD/EUR |
-| Settlement period | 182 days |
-| Day-count convention | ACT/360 |
+The validation covers:
 
-The LLM calculated the following accumulation factors:
+- Unhedged exposure
+- Forward hedge
+- Money-market hedge
+- EUR put option
+- EUR call option
+- Three settlement spot-rate scenarios
+- Covered interest-rate parity
+- Option premium treatment
+- Formula integrity and workbook outputs
+- Differences between the Stage 2 specification's original check figures and the Stage 4 updated market inputs
 
-- USD accumulation factor: 1.02325556
-- EUR accumulation factor: 1.01699172
+The purpose is to determine whether the independent calculations agree with the workbook, identify any remaining documentation or modeling issues, and establish whether the results support the provisional CFO recommendation.
 
-It calculated the following settlement outcomes:
+## 2. Source Inputs and Assumptions
 
-| Strategy | 95% spot: 1.04196 | 100% spot: 1.09680 | 105% spot: 1.15164 |
+The workbook uses the following Stage 4 inputs:
+
+| Input | Value | Classification |
+|---|---:|---|
+| EUR receivable | €14,500,000 | Scenario input |
+| Settlement horizon | 182 days | Scenario input |
+| Initial spot rate | 1.0968 USD/EUR | ECB reference rate, November 18, 2026 |
+| Assigned forward rate | 1.1705 USD/EUR | Scenario-provided indicative quote |
+| USD interest rate | 4.60% | U.S. Treasury 1-year par yield |
+| EUR interest rate | 3.361% | 12-month Euribor |
+| Put strike | 1.0968 USD/EUR | Assumption: equal to initial spot |
+| Call strike | 1.0968 USD/EUR | Assumption: equal to initial spot |
+| Put premium | 0.0194 USD/EUR | Scenario-provided indicative premium |
+| Call premium | 0.0296 USD/EUR | Scenario-provided indicative premium |
+| Day-count convention | ACT/360 | Scenario specification |
+
+The assigned forward rate and option premiums are not confirmed executable market quotes.
+
+The USD and EUR benchmark rates are different instruments and are not transaction-specific 182-day borrowing or deposit quotes. The USD rate is a U.S. Treasury 1-year par yield, while the EUR rate is a 12-month Euribor fixing. Both are applied as annualized rates over the 182-day horizon.
+
+The model therefore provides a benchmark comparison rather than a fully executable treasury quote comparison.
+
+### 2.1 Derived accumulation factors
+
+The workbook uses simple ACT/360 accumulation factors:
+
+\[
+DF_{USD}=1+R_{USD}\times\frac{T}{360}
+\]
+
+\[
+DF_{EUR}=1+R_{EUR}\times\frac{T}{360}
+\]
+
+Substituting the inputs:
+
+\[
+DF_{USD}=1+0.046\times\frac{182}{360}
+=1.02325556
+\]
+
+\[
+DF_{EUR}=1+0.03361\times\frac{182}{360}
+=1.01699172
+\]
+
+These factors are used in the money-market hedge, CIP calculation, and option premium treatment.
+
+## 3. Independent LLM Versus Workbook Comparison
+
+The independent LLM and workbook were compared at 95%, 100%, and 105% of the initial spot rate.
+
+The future spot rates are:
+
+| Scenario | Calculation | Future spot |
+|---|---|---:|
+| 95% | 1.0968 × 0.95 | 1.04196 |
+| 100% | 1.0968 × 1.00 | 1.09680 |
+| 105% | 1.0968 × 1.05 | 1.15164 |
+
+### 3.1 Comparison of USD outcomes
+
+All amounts are rounded to two decimal places.
+
+| Strategy | 95% spot | 100% spot | 105% spot |
 |---|---:|---:|---:|
 | Unhedged | $15,108,420.00 | $15,903,600.00 | $16,698,780.00 |
 | Forward | $16,972,250.00 | $16,972,250.00 | $16,972,250.00 |
 | Money market | $16,001,553.11 | $16,001,553.11 | $16,001,553.11 |
 | Put | $15,615,758.21 | $15,615,758.21 | $16,410,938.21 |
-| Call net payoff (separate position) | -$439,181.28 | -$439,181.28 | $355,998.72 |
+| Call gross payoff | $0.00 | $0.00 | $795,180.00 |
+| Call net payoff | -$439,181.28 | -$439,181.28 | $355,998.72 |
 
-The call is shown separately because it does not establish a minimum USD value for the EUR receivable.
+The independent LLM's results match the recalculated workbook outputs at all three scenarios.
 
-## 3. Workbook Comparison
+The call is displayed separately because it is an option payoff, not total proceeds from converting the EUR receivable.
 
-**Complete this section after opening the committed `model.xlsx` workbook.** Use the same three future spot rates and compare the workbook's calculated results with the independent LLM's results above. Do not assume that the workbook matches.
+### 3.2 Scenario interpretation
 
-| Strategy / result | LLM at 95% | Workbook at 95% | LLM at 100% | Workbook at 100% | LLM at 105% | Workbook at 105% |
-|---|---:|---:|---:|---:|---:|---:|
-| Unhedged | $15,108,420.00 | [enter] | $15,903,600.00 | [enter] | $16,698,780.00 | [enter] |
-| Forward | $16,972,250.00 | [enter] | $16,972,250.00 | [enter] | $16,972,250.00 | [enter] |
-| Money market | $16,001,553.11 | [enter] | $16,001,553.11 | [enter] | $16,001,553.11 | [enter] |
-| Put | $15,615,758.21 | [enter] | $15,615,758.21 | [enter] | $16,410,938.21 | [enter] |
-| Call net payoff | -$439,181.28 | [enter] | -$439,181.28 | [enter] | $355,998.72 | [enter] |
+**At 95% of initial spot:** The euro depreciates to 1.04196 USD/EUR. The unhedged company receives $15,108,420. The put maintains a minimum modeled receivable outcome of $15,615,758.21 after the carried premium. The forward produces $16,972,250, the highest modeled proceeds.
 
-### Discrepancy diagnosis
+**At 100% of initial spot:** The settlement rate remains at 1.0968 USD/EUR. The forward still produces $16,972,250, compared with $16,001,553.11 from the money-market hedge and $15,615,758.21 from the put.
 
-For every difference, record the strategy, cell or calculation involved, amount of the difference, and the reason. Classify each finding as:
+**At 105% of initial spot:** The euro appreciates to 1.15164 USD/EUR. Unhedged proceeds increase to $16,698,780, while the put preserves upside participation and produces $16,410,938.21 after its premium. The forward remains highest at $16,972,250 under the assigned quote.
 
-- **LLM error:** The independent model calculated or interpreted something incorrectly.
-- **Workbook error:** The Excel formula, input, named range, or displayed result is incorrect.
-- **Specification ambiguity:** The source documents did not define an input, convention, or calculation clearly enough.
+The forward wins all three requested scenarios and all eleven scenarios in the workbook's 95%–105% sensitivity grid.
 
-If a result matches, record it as a confirmed check. Do not write that all results match until you have completed the comparison.
+This result is conditional on the assigned 1.1705 forward rate. It does not establish that a bank will execute a transaction at that rate.
 
-| Item checked | Result | Classification / explanation |
-|---|---|---|
-| Unhedged proceeds at all three scenarios | [complete] | [complete] |
-| Forward proceeds at all three scenarios | [complete] | [complete] |
-| Money-market proceeds | [complete] | [complete] |
-| Put proceeds and premium treatment | [complete] | [complete] |
-| Call payoff and premium treatment | [complete] | [complete] |
-| CIP-implied forward and parity check | [complete] | [complete] |
+### 3.3 Call option treatment
 
-## 4. Hand Verification
+The call option is a separate payoff comparison rather than a hedge of the EUR receivable.
 
-The following calculations independently check the LLM's reported results using the Stage 4 inputs and Stage 2 methodology.
+Its strike equals the initial spot rate of 1.0968 USD/EUR.
 
-### 4.1 Forward proceeds
+At 95% and 100% spot, the call expires without gross payoff. The carried premium produces a net loss of $439,181.28.
 
-Formula:
+At 105% spot:
 
-`FC_AMT × F0_in`
+\[
+Call\ Gross\ Payoff =
+14,500,000\times(1.15164-1.0968)
+\]
 
-Calculation:
+\[
+= \$795,180
+\]
 
-`€14,500,000 × 1.1705 = $16,972,250.00`
+After deducting the carried premium:
 
-The forward locks in $16,972,250.00, regardless of the future settlement spot rate.
+\[
+Call\ Net\ Payoff =
+795,180-439,181.28
+\]
 
-**Workbook reconciliation:** [Enter the workbook cell/result and state whether it matches.]
+\[
+= \$355,998.72
+\]
 
-### 4.2 Money-market hedge — all three steps
+The independent LLM and workbook agree on the call's gross and net outcomes.
 
-First calculate the accumulation factors:
+## 4. Hand Verification of Workbook Calculations
 
-`DF_USD = 1 + (0.046 × 182 / 360) = 1.02325556`
+### 4.1 Forward hedge
 
-`DF_EUR = 1 + (0.03361 × 182 / 360) = 1.01699172`
+The company converts the full EUR receivable at the assigned indicative forward rate.
 
-**Step 1 — Borrow the present value of the EUR receivable**
+\[
+USD_{FWD}=FC_{AMT}\times F_{0}
+\]
 
-`€14,500,000 / 1.01699172 = €14,257,736.50`
+\[
+=14,500,000\times1.1705
+\]
 
-The EUR borrowing grows to approximately €14,500,000 at settlement.
+\[
+=\boxed{\$16,972,250}
+\]
 
-**Step 2 — Convert the borrowed EUR into USD at initial spot**
+The result is constant across settlement spot scenarios because the forward rate is locked in.
 
-`€14,257,736.50 × 1.0968 = $15,637,885.40`
+### 4.2 Money-market hedge
+
+The money-market hedge has three steps.
+
+**Step 1 — Borrow EUR today**
+
+\[
+MM\ Borrow_{EUR}=\frac{FC_{AMT}}{DF_{EUR}}
+\]
+
+\[
+=\frac{14,500,000}{1.0169917222}
+\]
+
+\[
+=\boxed{€14,257,736.50}
+\]
+
+The EUR borrowing accumulates to the receivable amount at maturity:
+
+\[
+14,257,736.50\times1.0169917222
+=\boxed{€14,500,000}
+\]
+
+**Step 2 — Convert borrowed EUR to USD**
+
+\[
+MM\ USD_{Now}=MM\ Borrow_{EUR}\times S_0
+\]
+
+\[
+=14,257,736.50\times1.0968
+\]
+
+\[
+=\boxed{\$15,637,885.40}
+\]
 
 **Step 3 — Invest USD until settlement**
 
-`$15,637,885.40 × 1.02325556 = $16,001,553.11`
+\[
+USD_{MM}=MM\ USD_{Now}\times DF_{USD}
+\]
 
-The money-market hedge produces approximately $16,001,553.11 using the modeled benchmark rates.
+\[
+=15,637,885.40\times1.0232555556
+\]
 
-**Workbook reconciliation:** [Enter each workbook step and result. Confirm whether the workbook's final proceeds match.]
+\[
+=\boxed{\$16,001,553.11}
+\]
 
-### 4.3 Put option floor at 95% of initial spot
+The three independently calculated steps agree with the workbook.
 
-Future spot:
+### 4.3 Put option
 
-`1.0968 × 0.95 = 1.04196 USD/EUR`
+The put premium is paid upfront and carried to settlement using the USD accumulation factor, as specified in Stage 2 Version 0.4.
 
-Put premium paid upfront:
+Upfront premium:
 
-`€14,500,000 × $0.0194 = $281,300.00`
+\[
+14,500,000\times0.0194
+=\$281,300
+\]
 
 Carried premium:
 
-`$281,300.00 × 1.02325556 = $287,841.79`
+\[
+PREM_{PUT,FV}=281,300\times1.0232555556
+\]
 
-Put proceeds:
+\[
+=\boxed{\$287,841.79}
+\]
 
-`€14,500,000 × MAX(1.04196, 1.0968) − $287,841.79`
+The strike equals the initial spot rate:
 
-`= $15,903,600.00 − $287,841.79`
+\[
+K_{PUT}=1.0968
+\]
 
-`= $15,615,758.21`
+Minimum modeled proceeds:
 
-The put establishes a modeled minimum settlement value of $15,615,758.21 after the carried premium.
+\[
+USD_{FLOOR}=FC_{AMT}\times K_{PUT}-PREM_{PUT,FV}
+\]
 
-**Workbook reconciliation:** [Enter the workbook result and state whether it matches.]
+\[
+=14,500,000\times1.0968-287,841.79
+\]
 
-## 5. CIP-Implied Forward and Parity Check
+\[
+=\boxed{\$15,615,758.21}
+\]
 
-The independent LLM calculated:
+The put floor agrees with the workbook.
 
-`F_IMPLIED = S0_in × DF_USD / DF_EUR`
+### 4.4 Call option
 
-`= 1.0968 × 1.02325556 / 1.01699172`
+The call premium is also paid upfront and carried to settlement.
 
-`= 1.10355539 USD/EUR`
+Upfront premium:
 
-Comparison:
+\[
+14,500,000\times0.0296
+=\$429,200
+\]
 
-| Measure | Independent LLM result |
-|---|---:|
-| Assigned bank forward quote | 1.17050000 |
-| CIP-implied forward | 1.10355539 |
-| Rate difference | 0.06694461 USD/EUR |
-| Difference on EUR 14.5 million | $970,696.89 |
-| Money-market proceeds | $16,001,553.11 |
-| CIP-implied proceeds | $16,001,553.11 |
-| Parity difference | $0.00 |
+Carried premium:
 
-The money-market hedge and CIP-implied forward agree under the same modeled inputs. This parity result does not establish that the assigned bank quote is current or executable.
+\[
+PREM_{CALL,FV}=429,200\times1.0232555556
+\]
 
-**Workbook reconciliation:** [Check the workbook's implied forward, money-market proceeds, and parity difference. Record the actual values.]
+\[
+=\boxed{\$439,181.28}
+\]
 
-## 6. Specification Retrospective
+At 105% of initial spot, the gross call payoff is $795,180 and the net payoff is $355,998.72.
 
-The independent test shows that the source documents communicate the main hedge calculations, but several assumptions need to be more explicit.
+The independent calculations agree with the workbook.
 
-First, the LLM treated the Stage 4 market inputs as superseding the original Stage 2 market inputs while retaining the assigned forward quote and option premiums. This treatment is understandable from the project context, but the specification should state explicitly which inputs are replaced by later market observations and which scenario assumptions remain fixed.
+## 5. Covered Interest-Rate Parity Analysis
 
-Second, the assigned forward quote and option premiums were retained even though the initial spot rate changed. The documents should clearly distinguish assigned scenario values from current executable market quotes. Otherwise, a reader could mistake the forward result for a transaction that the company can actually execute.
+The CIP-implied forward rate is calculated using the spot rate and the USD and EUR accumulation factors.
 
-Third, the interest-rate inputs are benchmark rates with different instruments and tenors, rather than confirmed transaction-specific borrowing and investment rates. The specification should explain that the resulting CIP-implied forward and money-market proceeds are modeled comparisons, not executable arbitrage opportunities.
+\[
+F_{IMPLIED}=S_0\times\frac{DF_{USD}}{DF_{EUR}}
+\]
 
-Finally, the call option needs to remain clearly separated from the receivable-proceeds comparison. It is a separate derivative payoff and does not hedge the downside value of the EUR receivable.
+\[
+=1.0968\times\frac{1.0232555556}{1.0169917222}
+\]
 
-A revised specification should define the input hierarchy, distinguish market observations from assigned scenario assumptions, state the limits of benchmark-rate comparisons, and specify how the call result is displayed relative to the four receivable strategies.
+\[
+=\boxed{1.10355539\ USD/EUR}
+\]
 
-## 7. Validation Conclusion
+The parity-implied USD proceeds are:
 
-The independent LLM produced a complete analysis using the two source documents. Its provisional conclusion favors the forward based on the assigned 1.1705 quote, which produces $16,972,250.00 across the three selected scenarios.
+\[
+14,500,000\times1.1035553867
+=\boxed{\$16,001,553.11}
+\]
 
-However, the assigned quote is materially above the modeled CIP-implied forward of 1.10355539. The rate difference is 0.06694461 USD/EUR, or $970,696.89 on the receivable. Because the assigned quote may be stale, it must be confirmed before execution.
+The money-market hedge also produces $16,001,553.11.
 
-The workbook comparison and final validation status remain subject to the checks recorded in Sections 3–5. The independent LLM output alone does not establish that the workbook is correct.
+\[
+PARITY\ Difference=USD_{MM}-USD_{CIP}
+\]
 
-**Final status:** [Complete after workbook comparison and hand verification.]
+\[
+=16,001,553.11-16,001,553.11
+\]
 
-## Source Documents
+\[
+=\boxed{\$0.00}
+\]
 
-1. Stage 2 — Scenario 33 Technical Specification.
-2. Stage 4 — Market-Data Memo.
-3. [Independent LLM Output](2026-11-24-scenario-33-independent-llm-output.md).
-4. Scenario 33 Excel workbook (`model.xlsx`).
+The workbook's parity validation passes its $0.01 tolerance.
+
+### 5.1 Assigned forward versus CIP-implied forward
+
+The assigned forward rate is 1.1705 USD/EUR, compared with the CIP-implied rate of 1.10355539 USD/EUR.
+
+\[
+Rate\ Difference=1.1705-1.10355539
+\]
+
+\[
+=\boxed{0.06694461\ USD/EUR}
+\]
+
+The corresponding modeled USD difference on the receivable is:
+
+\[
+14,500,000\times0.0669446133
+\]
+
+\[
+=\boxed{\$970,696.89}
+\]
+
+The assigned quote is approximately 6.07% above the CIP-implied rate.
+
+This is a modeled comparison, not guaranteed savings. The CIP rate is calculated using benchmark interest rates rather than transaction-specific borrowing and deposit quotes. The USD Treasury yield and EUR Euribor fixing also differ in instrument and credit basis.
+
+The assigned 1.1705 rate must be treated as an indicative scenario quote unless the bank confirms that it is currently executable for the full EUR 14.5 million notional and 182-day maturity.
+
+## 6. Discrepancy Diagnosis
+
+### 6.1 Independent LLM versus workbook
+
+No numerical discrepancies were identified in the independently recomputed forward, money-market, put, call, or CIP calculations at the three requested settlement scenarios.
+
+The workbook's formulas produce the same results as the independent calculations after recalculation.
+
+The following checks passed:
+
+- Forward proceeds agree with the assigned rate and receivable amount.
+- All three money-market steps agree with the independent calculations.
+- EUR borrowing plus accrued interest equals the EUR receivable.
+- Put premium is carried to settlement using the USD accumulation factor.
+- Put proceeds remain above the modeled floor.
+- Call gross payoff and net payoff agree.
+- Money-market proceeds equal CIP-implied proceeds within the $0.01 tolerance.
+- All eleven sensitivity scenarios calculate without formula errors.
+
+### 6.2 Difference from original Stage 2 sensitivity expectations
+
+Stage 2 Version 0.4 includes expected sensitivity results using its original placeholder market inputs. Those inputs included an initial spot rate of 1.1165 USD/EUR and different benchmark interest rates.
+
+Stage 4 replaced the spot and interest-rate inputs with updated November 17–18 observations.
+
+Consequently, the original Stage 2 sensitivity expectation—that the forward wins from 95% through 104% and unhedged exposure wins at 105%—does not describe the updated Stage 4 results.
+
+With the updated initial spot of 1.0968, the 105% settlement spot is 1.15164, which remains below the assigned forward rate of 1.1705. The forward therefore wins all eleven modeled sensitivity scenarios.
+
+This is an input-update effect, not a calculation discrepancy.
+
+### 6.3 Workbook metadata issue
+
+The uploaded workbook's Cover worksheet identifies the specification as Version 0.3, dated November 9, 2026.
+
+The repository's Stage 2 technical specification is Version 0.4, dated November 13, 2026.
+
+The Cover worksheet metadata should be updated to Version 0.4 and November 13, 2026 so the workbook accurately identifies its governing specification.
+
+The workbook's Stage 4 market inputs and calculation formulas were otherwise consistent with the reviewed Version 0.4 calculation conventions.
+
+## 7. Workbook Structure and Formula Review
+
+The uploaded workbook contains all eight required worksheets:
+
+1. Cover
+2. Legend-Key
+3. Inputs
+4. Forward Hedge
+5. Money Market Hedge
+6. Option Hedge
+7. Sensitivity
+8. Notes & Assumptions
+
+The ten standardized input named ranges are present. The strike assumptions are formula-linked to the initial spot rate.
+
+The sensitivity worksheet contains eleven settlement scenarios from 95% through 105% of initial spot in 1% increments. Its line chart is linked to the sensitivity table.
+
+The recalculated workbook produced no formula errors. The parity check returned PASS, and the put floor validation returned PASS.
+
+One documentation improvement remains: the workbook displays the updated numerical check figures in Notes & Assumptions, but it does not provide a separate formula-driven PASS/FAIL comparison for every numerical check figure listed in the Stage 2 build requirements. The Stage 3 build audit should explicitly document the manual comparison or the workbook should be expanded to show those individual checks.
+
+## 8. Specification Retrospective
+
+### 8.1 What the specification communicated clearly
+
+The Stage 2 Version 0.4 specification provided enough detail for the independent LLM to calculate the five outcomes without receiving the workbook.
+
+It clearly defined:
+
+- The EUR receivable and settlement horizon.
+- Exchange-rate convention.
+- All ten standardized inputs.
+- ACT/360 accumulation factors.
+- All three money-market hedge steps.
+- The forward calculation.
+- Put and call payoff formulas.
+- Option premium timing.
+- The sensitivity range.
+- The CIP calculation and validation tolerance.
+- The distinction between the call payoff and total receivable proceeds.
+
+The independent LLM's calculations matched the workbook after recalculation.
+
+### 8.2 What required interpretation or qualification
+
+The main area requiring careful interpretation was the relationship between the Stage 2 assumptions and Stage 4 market updates.
+
+The independent LLM had to use the updated Stage 4 spot and benchmark rates while retaining the scenario-provided forward quote and option premiums.
+
+The Stage 4 data also required a distinction between benchmark rates and transaction-specific financing terms. The model uses a U.S. Treasury yield and a Euribor fixing as reference inputs, not executable borrowing and investment quotes.
+
+The 1.1705 forward quote also required qualification because the documents do not establish that it is currently executable.
+
+### 8.3 Recommended specification improvements
+
+Future versions should:
+
+1. State the input hierarchy explicitly: Stage 4 replaces only the dated market observations, while scenario-provided values remain unchanged unless the assignment directs otherwise.
+2. Require the model to distinguish assigned indicative quotes from confirmed executable market quotes.
+3. Require a clear label whenever benchmark rates are used as proxies for transaction-specific financing rates.
+4. Identify the expected sensitivity results as dependent on the original placeholder inputs, so later market-data updates do not appear to create unexplained errors.
+5. Require the workbook cover metadata to match the exact specification version used to build the workbook.
+
+## 9. Recommendation and Validation Status
+
+The forward hedge produces the highest modeled receivable proceeds in all eleven settlement scenarios using the Stage 4 inputs.
+
+It also provides certainty over the USD amount received at maturity, avoiding the downside exposure associated with an unhedged receivable and the premium cost associated with the put option.
+
+The money-market hedge produces $16,001,553.11, approximately $970,696.89 below the proceeds modeled using the assigned forward quote. However, this difference should not be interpreted as guaranteed savings because the assigned forward is not confirmed executable and the benchmark rates are not transaction-specific financing quotes.
+
+The provisional recommendation is to request a current executable forward quote from the bank for the full EUR 14.5 million receivable and 182-day maturity.
+
+If the bank confirms that the 1.1705 rate is executable for the required notional and maturity, the forward is the strongest modeled choice based on proceeds certainty and the sensitivity results.
+
+If the bank cannot confirm that rate, the company should reassess the forward against updated executable market quotes and actual borrowing and deposit terms.
+
+### Validation status
+
+The independent LLM calculations reconcile with the recalculated workbook outputs for the five strategy outcomes at the three requested spot scenarios.
+
+The formula-level calculations, money-market steps, option premium treatment, and CIP parity check agree.
+
+The remaining actions are:
+
+- Correct the workbook Cover worksheet's specification version and date.
+- Confirm that the Stage 3 build audit records all seven instructor checks.
+- Confirm that the Stage 4 source memo matches the inputs and provenance recorded in the workbook.
+- Obtain a current executable forward quote before treating the recommendation as an executable treasury decision.
+
+The independent calculation comparison is complete. The recommendation remains conditional on market quote confirmation and the remaining documentation checks.
