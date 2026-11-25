@@ -28,16 +28,16 @@ The validation covers:
 - EUR put option
 - EUR call option
 - Three settlement spot-rate scenarios
-- Covered interest-rate parity
+- Covered interest-rate parity (CIP)
 - Option premium treatment
-- Formula integrity and workbook outputs
-- Differences between the Stage 2 specification's original check figures and the Stage 4 updated market inputs
+- Workbook calculations and visible validation
+- Differences between the original Stage 2 check figures and the updated Stage 4 market inputs
 
-The purpose is to determine whether the independent calculations agree with the workbook, identify any remaining documentation or modeling issues, and establish whether the results support the provisional CFO recommendation.
+The purpose is to determine whether the independent calculations agree with the recalculated workbook, identify remaining modeling and documentation issues, and establish whether the results support the provisional CFO recommendation.
 
 ## 2. Source Inputs and Assumptions
 
-The workbook uses the following Stage 4 inputs:
+The analysis uses the following Stage 4 inputs while retaining the calculation methodology established in Stage 2 Version 0.4.
 
 | Input | Value | Classification |
 |---|---:|---|
@@ -51,7 +51,7 @@ The workbook uses the following Stage 4 inputs:
 | Call strike | 1.0968 USD/EUR | Assumption: equal to initial spot |
 | Put premium | 0.0194 USD/EUR | Scenario-provided indicative premium |
 | Call premium | 0.0296 USD/EUR | Scenario-provided indicative premium |
-| Day-count convention | ACT/360 | Scenario specification |
+| Day-count convention | ACT/360 | Stage 2 specification |
 
 The assigned forward rate and option premiums are not confirmed executable market quotes.
 
@@ -87,7 +87,7 @@ These factors are used in the money-market hedge, CIP calculation, and option pr
 
 ## 3. Independent LLM Versus Workbook Comparison
 
-The independent LLM and workbook were compared at 95%, 100%, and 105% of the initial spot rate.
+The independent LLM and recalculated workbook were compared at 95%, 100%, and 105% of the initial spot rate.
 
 The future spot rates are:
 
@@ -116,11 +116,11 @@ The call is displayed separately because it is an option payoff, not total proce
 
 ### 3.2 Scenario interpretation
 
-**At 95% of initial spot:** The euro depreciates to 1.04196 USD/EUR. The unhedged company receives $15,108,420. The put maintains a minimum modeled receivable outcome of $15,615,758.21 after the carried premium. The forward produces $16,972,250, the highest modeled proceeds.
+**At 95% of initial spot:** The euro depreciates to 1.04196 USD/EUR. The unhedged company receives $15,108,420. The put maintains a minimum modeled receivable outcome of $15,615,758.21 after the carried premium. The forward produces $16,972,250 under the assigned quote.
 
-**At 100% of initial spot:** The settlement rate remains at 1.0968 USD/EUR. The forward still produces $16,972,250, compared with $16,001,553.11 from the money-market hedge and $15,615,758.21 from the put.
+**At 100% of initial spot:** The settlement rate remains at 1.0968 USD/EUR. The forward produces $16,972,250, compared with $16,001,553.11 from the money-market hedge and $15,615,758.21 from the put.
 
-**At 105% of initial spot:** The euro appreciates to 1.15164 USD/EUR. Unhedged proceeds increase to $16,698,780, while the put preserves upside participation and produces $16,410,938.21 after its premium. The forward remains highest at $16,972,250 under the assigned quote.
+**At 105% of initial spot:** The euro appreciates to 1.15164 USD/EUR. Unhedged proceeds increase to $16,698,780, while the put preserves upside participation and produces $16,410,938.21 after its premium. The forward produces $16,972,250 under the assigned quote.
 
 The forward wins all three requested scenarios and all eleven scenarios in the workbook's 95%–105% sensitivity grid.
 
@@ -142,7 +142,7 @@ Call\ Gross\ Payoff =
 \]
 
 \[
-= \$795,180
+=\$795,180
 \]
 
 After deducting the carried premium:
@@ -153,19 +153,21 @@ Call\ Net\ Payoff =
 \]
 
 \[
-= \$355,998.72
+=\$355,998.72
 \]
 
 The independent LLM and workbook agree on the call's gross and net outcomes.
 
 ## 4. Hand Verification of Workbook Calculations
 
+The following calculations provide the arithmetic required to independently check the workbook. The checks must be completed with a calculator rather than Excel. The calculations shown here are the verification trail; the analyst should mark the checks complete only after personally confirming the arithmetic.
+
 ### 4.1 Forward hedge
 
 The company converts the full EUR receivable at the assigned indicative forward rate.
 
 \[
-USD_{FWD}=FC_{AMT}\times F_{0}
+USD_{FWD}=FC_{AMT}\times F_0
 \]
 
 \[
@@ -231,8 +233,6 @@ USD_{MM}=MM\ USD_{Now}\times DF_{USD}
 =\boxed{\$16,001,553.11}
 \]
 
-The three independently calculated steps agree with the workbook.
-
 ### 4.3 Put option
 
 The put premium is paid upfront and carried to settlement using the USD accumulation factor, as specified in Stage 2 Version 0.4.
@@ -274,8 +274,6 @@ USD_{FLOOR}=FC_{AMT}\times K_{PUT}-PREM_{PUT,FV}
 =\boxed{\$15,615,758.21}
 \]
 
-The put floor agrees with the workbook.
-
 ### 4.4 Call option
 
 The call premium is also paid upfront and carried to settlement.
@@ -299,7 +297,17 @@ PREM_{CALL,FV}=429,200\times1.0232555556
 
 At 105% of initial spot, the gross call payoff is $795,180 and the net payoff is $355,998.72.
 
-The independent calculations agree with the workbook.
+### 4.5 Calculator verification record
+
+Complete these checks before submitting the validation analysis:
+
+- [ ] Forward proceeds independently checked with a calculator.
+- [ ] EUR borrowing independently checked with a calculator.
+- [ ] USD conversion independently checked with a calculator.
+- [ ] USD investment proceeds independently checked with a calculator.
+- [ ] Put carried premium and minimum proceeds independently checked with a calculator.
+
+The arithmetic above should be retained in the final submission. Do not mark a check complete unless you personally performed it.
 
 ## 5. Covered Interest-Rate Parity Analysis
 
@@ -370,22 +378,22 @@ The assigned 1.1705 rate must be treated as an indicative scenario quote unless 
 
 ## 6. Discrepancy Diagnosis
 
-### 6.1 Independent LLM versus workbook
+This section classifies the differences and validation issues using the required categories: LLM error, workbook error, or specification ambiguity. A difference caused by updated inputs is not automatically a calculation error.
 
-No numerical discrepancies were identified in the independently recomputed forward, money-market, put, call, or CIP calculations at the three requested settlement scenarios.
+### 6.1 Independent LLM versus recalculated workbook
 
-The workbook's formulas produce the same results as the independent calculations after recalculation.
+No numerical discrepancies were identified in the independent LLM's forward, money-market, put, call, or CIP calculations at the three requested settlement scenarios.
 
-The following checks passed:
+| Item reviewed | Finding | Classification |
+|---|---|---|
+| Unhedged proceeds | Independent results agree with recalculated workbook outputs at all three scenarios. | No discrepancy identified |
+| Forward proceeds | Both calculate $16,972,250 using the assigned 1.1705 rate. | No discrepancy identified |
+| Money-market hedge | All three steps and final proceeds agree. | No discrepancy identified |
+| Put option | Carried premium and minimum proceeds agree. | No discrepancy identified |
+| Call option | Gross payoff, carried premium, and net payoff agree. | No discrepancy identified |
+| CIP calculation | Money-market proceeds and CIP-implied proceeds agree within the $0.01 tolerance. | No discrepancy identified |
 
-- Forward proceeds agree with the assigned rate and receivable amount.
-- All three money-market steps agree with the independent calculations.
-- EUR borrowing plus accrued interest equals the EUR receivable.
-- Put premium is carried to settlement using the USD accumulation factor.
-- Put proceeds remain above the modeled floor.
-- Call gross payoff and net payoff agree.
-- Money-market proceeds equal CIP-implied proceeds within the $0.01 tolerance.
-- All eleven sensitivity scenarios calculate without formula errors.
+The recalculated workbook produced the same numerical outcomes as the independent calculations. This numerical agreement does not, by itself, establish that every Stage 3 build and presentation requirement has passed.
 
 ### 6.2 Difference from original Stage 2 sensitivity expectations
 
@@ -397,7 +405,7 @@ Consequently, the original Stage 2 sensitivity expectation—that the forward wi
 
 With the updated initial spot of 1.0968, the 105% settlement spot is 1.15164, which remains below the assigned forward rate of 1.1705. The forward therefore wins all eleven modeled sensitivity scenarios.
 
-This is an input-update effect, not a calculation discrepancy.
+**Discrepancy classification: Specification/input-version ambiguity — not an LLM or workbook calculation error.** The original Stage 2 sensitivity expectations were based on the original market inputs, while the Stage 4 analysis uses updated spot and interest-rate observations. The difference in the winning strategy at the 105% scenario results from those changed inputs. The independent LLM and recalculated workbook agree when both use the Stage 4 inputs. Future specification versions should explicitly state that updated Stage 4 observations supersede the corresponding Stage 2 market inputs and that sensitivity outcomes must be recalculated accordingly.
 
 ### 6.3 Workbook metadata issue
 
@@ -405,13 +413,19 @@ The uploaded workbook's Cover worksheet identifies the specification as Version 
 
 The repository's Stage 2 technical specification is Version 0.4, dated November 13, 2026.
 
-The Cover worksheet metadata should be updated to Version 0.4 and November 13, 2026 so the workbook accurately identifies its governing specification.
+**Discrepancy classification: Workbook documentation error.** The Cover worksheet metadata does not identify the governing specification version used for the updated analysis. Update the workbook Cover metadata to Version 0.4 and November 13, 2026, then confirm that the corrected workbook is the version committed to the repository.
 
-The workbook's Stage 4 market inputs and calculation formulas were otherwise consistent with the reviewed Version 0.4 calculation conventions.
+This metadata issue does not change the numerical calculations, but it weakens the audit trail between the specification and workbook.
 
-## 7. Workbook Structure and Formula Review
+### 6.4 Visible validation gap
 
-The uploaded workbook contains all eight required worksheets:
+The reviewed workbook displays the parity check and put floor validation. It also displays numerical check figures in Notes & Assumptions. However, it does not provide a separate formula-driven PASS/FAIL comparison for every numerical check figure listed in the Stage 2 build requirements.
+
+**Discrepancy classification: Workbook validation-presentation gap.** The missing individual comparisons do not establish that the underlying calculations are wrong. They mean that the workbook does not visibly demonstrate every required validation result. The Stage 3 build audit should document which comparisons were manually verified, or the workbook should be expanded to display the individual checks.
+
+## 7. Workbook Structure and Stage 3 Build Audit
+
+The uploaded workbook was reviewed for its structure and calculation outputs. It contains the following eight worksheets:
 
 1. Cover
 2. Legend-Key
@@ -422,13 +436,27 @@ The uploaded workbook contains all eight required worksheets:
 7. Sensitivity
 8. Notes & Assumptions
 
-The ten standardized input named ranges are present. The strike assumptions are formula-linked to the initial spot rate.
+The ten standardized input named ranges were present in the reviewed workbook. The strike assumptions were formula-linked to the initial spot rate.
 
-The sensitivity worksheet contains eleven settlement scenarios from 95% through 105% of initial spot in 1% increments. Its line chart is linked to the sensitivity table.
+The Sensitivity worksheet contains eleven settlement scenarios from 95% through 105% of initial spot in 1% increments. Its line chart is linked to the sensitivity table.
 
 The recalculated workbook produced no formula errors. The parity check returned PASS, and the put floor validation returned PASS.
 
-One documentation improvement remains: the workbook displays the updated numerical check figures in Notes & Assumptions, but it does not provide a separate formula-driven PASS/FAIL comparison for every numerical check figure listed in the Stage 2 build requirements. The Stage 3 build audit should explicitly document the manual comparison or the workbook should be expanded to show those individual checks.
+These findings apply to the uploaded workbook reviewed for this analysis. The workbook must still be committed at its canonical repository path and checked to ensure the committed copy is the same version.
+
+### 7.1 Seven Stage 3 build requirements
+
+| Stage 3 requirement | Review finding | Status |
+|---|---|---|
+| 1. Named ranges | Ten standardized input names were present in the uploaded workbook. | Confirm in committed copy |
+| 2. Formula integrity | Recalculated workbook produced no formula errors. | Confirm in committed copy |
+| 3. Cover | Scenario and workbook metadata require review; specification version and date need correction. | Revision required |
+| 4. Legend-Key | Worksheet exists. Confirm the required input, assumption, formula, and output colors are consistently applied. | Visual confirmation required |
+| 5. Hedge families | Forward, three money-market steps, put, and separate call payoff were included in the reviewed calculations. | Confirm in committed copy |
+| 6. Sensitivity | Eleven scenarios and a linked chart were present in the uploaded workbook. | Confirm in committed copy |
+| 7. Visible validation | Parity and put floor checks displayed PASS, but individual formula-driven comparisons for every numerical check figure were not separately displayed. | Additional validation documentation or workbook revision required |
+
+The seven requirements should not be described as all passing. The uploaded workbook's core calculations reconcile with the independent results, but the Cover metadata, Legend-Key visual review, committed-copy verification, and complete visible validation evidence remain outstanding.
 
 ## 8. Specification Retrospective
 
@@ -440,7 +468,7 @@ It clearly defined:
 
 - The EUR receivable and settlement horizon.
 - Exchange-rate convention.
-- All ten standardized inputs.
+- The standardized model inputs.
 - ACT/360 accumulation factors.
 - All three money-market hedge steps.
 - The forward calculation.
@@ -450,33 +478,37 @@ It clearly defined:
 - The CIP calculation and validation tolerance.
 - The distinction between the call payoff and total receivable proceeds.
 
-The independent LLM's calculations matched the workbook after recalculation.
+The independent LLM's calculations matched the recalculated workbook outputs using the Stage 4 inputs.
 
 ### 8.2 What required interpretation or qualification
 
-The main area requiring careful interpretation was the relationship between the Stage 2 assumptions and Stage 4 market updates.
-
-The independent LLM had to use the updated Stage 4 spot and benchmark rates while retaining the scenario-provided forward quote and option premiums.
+The main area requiring careful interpretation was the relationship between the Stage 2 assumptions and Stage 4 market updates. The independent LLM needed to use the updated Stage 4 spot and benchmark rates while retaining the scenario-provided forward quote and option premiums.
 
 The Stage 4 data also required a distinction between benchmark rates and transaction-specific financing terms. The model uses a U.S. Treasury yield and a Euribor fixing as reference inputs, not executable borrowing and investment quotes.
 
-The 1.1705 forward quote also required qualification because the documents do not establish that it is currently executable.
+The 1.1705 forward quote required further qualification because the documents do not establish that it is currently executable. The original Stage 2 sensitivity expectations also needed to be interpreted in light of the updated Stage 4 inputs. Without a clear input hierarchy, a reader could mistake a changed sensitivity outcome for a calculation error.
 
-### 8.3 Recommended specification improvements
+Finally, although the specification provides numerical check figures, the workbook's visible validation does not separately compare every check figure with a formula-driven PASS/FAIL result. This makes it harder for another reviewer to verify the model's integrity directly from the workbook.
+
+### 8.3 Recommended Version 2 improvements
 
 Future versions should:
 
 1. State the input hierarchy explicitly: Stage 4 replaces only the dated market observations, while scenario-provided values remain unchanged unless the assignment directs otherwise.
 2. Require the model to distinguish assigned indicative quotes from confirmed executable market quotes.
 3. Require a clear label whenever benchmark rates are used as proxies for transaction-specific financing rates.
-4. Identify the expected sensitivity results as dependent on the original placeholder inputs, so later market-data updates do not appear to create unexplained errors.
-5. Require the workbook cover metadata to match the exact specification version used to build the workbook.
+4. Identify expected sensitivity results as dependent on the original placeholder inputs, so later market-data updates do not appear to create unexplained errors.
+5. Require workbook Cover metadata to match the exact specification version used to build the workbook.
+6. Require formula-driven PASS/FAIL comparisons for each numerical check figure, with stated tolerances.
+7. Require the workbook audit to distinguish numerical formula validation from visual, documentation, and repository checks.
+
+These changes would make the specification easier to interpret independently and make the workbook's validation evidence more transparent.
 
 ## 9. Recommendation and Validation Status
 
 The forward hedge produces the highest modeled receivable proceeds in all eleven settlement scenarios using the Stage 4 inputs.
 
-It also provides certainty over the USD amount received at maturity, avoiding the downside exposure associated with an unhedged receivable and the premium cost associated with the put option.
+It also provides certainty over the USD amount received at maturity if executed at the modeled rate, avoiding the downside exposure associated with an unhedged receivable and the premium cost associated with the put option.
 
 The money-market hedge produces $16,001,553.11, approximately $970,696.89 below the proceeds modeled using the assigned forward quote. However, this difference should not be interpreted as guaranteed savings because the assigned forward is not confirmed executable and the benchmark rates are not transaction-specific financing quotes.
 
@@ -490,13 +522,27 @@ If the bank cannot confirm that rate, the company should reassess the forward ag
 
 The independent LLM calculations reconcile with the recalculated workbook outputs for the five strategy outcomes at the three requested spot scenarios.
 
-The formula-level calculations, money-market steps, option premium treatment, and CIP parity check agree.
+The reviewed calculations, money-market steps, option premium treatment, and CIP parity check agree.
 
-The remaining actions are:
+The following items remain before the project can be considered fully documented and ready for submission:
 
+- Complete the calculator verification record in Section 4.5.
 - Correct the workbook Cover worksheet's specification version and date.
-- Confirm that the Stage 3 build audit records all seven instructor checks.
+- Confirm that the committed workbook is the same version that was recalculated and reviewed.
+- Visually confirm the Legend-Key color conventions in the committed workbook.
+- Confirm that the Stage 3 build audit records all seven instructor checks without claiming unsupported PASS results.
+- Add or document the individual numerical validation comparisons required by the Stage 2 specification.
 - Confirm that the Stage 4 source memo matches the inputs and provenance recorded in the workbook.
 - Obtain a current executable forward quote before treating the recommendation as an executable treasury decision.
 
-The independent calculation comparison is complete. The recommendation remains conditional on market quote confirmation and the remaining documentation checks.
+The independent calculation comparison is complete for the reviewed workbook and stated scenarios. The full Stage 3 build audit and documentation checks are not yet all confirmed. The recommendation remains conditional on market quote confirmation.
+
+---
+
+**Source Documents:**
+
+1. Stage 2 — Scenario 33 Technical Specification, Version 0.4.
+2. Stage 4 — Market-Data Memo, November 18, 2026.
+3. Stage 3 — Recalculated FX hedging workbook.
+
+**End of Stage 5 Independent Validation Analysis**
